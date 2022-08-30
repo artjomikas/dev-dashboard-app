@@ -28,19 +28,37 @@ const Header = () => {
               </button>
 
               {showDropDown && (
-                <div className="absolute rounded-md w-44 right-6 top-[70px] bg-white divide-gray-100 text-sm ">
-                  <p className="block py-2 px-4 border-b">
-                    Signed in as <b>{user.displayName}</b>
-                  </p>
+                <div
+                  className="fixed inset-0 z-100"
+                  onClick={() => setShowDropDown(!showDropDown)}
+                  // close modal when outside of modal is clicked
+                >
+                  <div
+                    className="absolute rounded-md w-44 right-6 top-[70px] bg-white divide-gray-100 text-sm "
+                    onClick={(e) => {
+                      // do not close modal if anything inside modal content is clicked
+                      e.stopPropagation();
+                    }}
+                  >
+                    <p className="block py-2 px-4 border-b">
+                      Signed in as <b>{user.displayName}</b>
+                    </p>
 
-                  <ul className="cursor-pointer rounded-xl">
-                    <li className="block py-2 px-4 hover:bg-gray-100 ">
-                      Settings
-                    </li>
-                    <li className="block py-2 mb-4 px-4  hover:bg-gray-100 " onClick={() => logout()}>
-                      Sign Out
-                    </li>
-                  </ul>
+                    <ul className="cursor-pointer rounded-xl ">
+                      <li className="block py-2 px-4 hover:bg-gray-100 ">
+                        Profile
+                      </li>
+                      <li className="block py-2 px-4 hover:bg-gray-100 ">
+                        Settings
+                      </li>
+                      <li
+                        className="block py-2 mb-4 px-4 hover:bg-gray-100 "
+                        onClick={() => logout()}
+                      >
+                        Sign Out
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               )}
             </>
