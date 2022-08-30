@@ -10,6 +10,7 @@ import {
   sendPasswordResetEmail,
   GithubAuthProvider,
   signInWithPopup,
+  GoogleAuthProvider,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 
@@ -33,6 +34,10 @@ export const AuthContextProvider = ({ children }) => {
     return signInWithPopup(auth, new GithubAuthProvider());
   };
 
+  const signInWithGoogle = () => {
+    return signInWithPopup(auth, new GoogleAuthProvider());
+  };
+
   const resetPassword = (email) => {
     return sendPasswordResetEmail(auth, email);
   };
@@ -53,7 +58,15 @@ export const AuthContextProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ signUp, signIn, logout, signInWithGithub, resetPassword, user }}
+      value={{
+        signUp,
+        signIn,
+        logout,
+        signInWithGithub,
+        signInWithGoogle,
+        resetPassword,
+        user,
+      }}
     >
       {children}
     </AuthContext.Provider>

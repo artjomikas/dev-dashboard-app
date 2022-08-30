@@ -5,13 +5,16 @@ import Logo from "./Logo";
 import { UserAuth } from "../context/AuthContext";
 
 const Modal = (props) => {
-  const { signInWithGithub, user } = UserAuth();
+  const { signInWithGithub, signInWithGoogle, user } = UserAuth();
 
-  
   const buttonArray = [
-    [<AiOutlineGithub className="text-[23px] mr-2" />, "GitHub"],
-    [<FcGoogle className="text-[23px] mr-2" />, "Google"],
-    [<AiOutlineMail className="text-[23px] mr-2" />, "Email"],
+    [
+      <AiOutlineGithub className="text-[23px] mr-2" />,
+      "GitHub",
+      signInWithGithub,
+    ],
+    [<FcGoogle className="text-[23px] mr-2" />, "Google", signInWithGoogle],
+    [<AiOutlineMail className="text-[23px] mr-2" />, "Email", signInWithGithub],
   ];
   return (
     <>
@@ -42,19 +45,17 @@ const Modal = (props) => {
             </span>
 
             <div className="flex flex-col items-stretch self-center">
-              {buttonArray.map(([icon, title]) => (
+              {buttonArray.map(([icon, title, provider]) => (
                 <button
                   key={title}
                   className="bg-white hover:bg-primary my-2 font-medium text-sm sm:typo h-10 rounded-[12px] px-[23px] flex flex-row items-center"
-                  onClick={()=> signInWithGithub().then(props.setShowModal)}
+                  onClick={() => provider().then(props.setShowModal)}
                 >
                   {icon}
                   <span>Connect with {title}</span>
                 </button>
               ))}
             </div>
-
-           
           </div>
         </div>
       </div>

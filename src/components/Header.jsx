@@ -31,16 +31,16 @@ const Header = () => {
                 <div
                   className="fixed inset-0 z-100"
                   onClick={() => setShowDropDown(!showDropDown)}
-                  // close modal when outside of modal is clicked
+                  // close dropdown when outside of dropdown is clicked
                 >
                   <div
                     className="absolute rounded-md w-44 right-6 top-[70px] bg-white divide-gray-100 text-sm "
                     onClick={(e) => {
-                      // do not close modal if anything inside modal content is clicked
+                      // do not close dropdown if anything inside dropdown content is clicked
                       e.stopPropagation();
                     }}
                   >
-                    <p className="block py-2 px-4 border-b">
+                    <p className="block py-2 px-4 border-b break-words">
                       Signed in as <b>{user.displayName}</b>
                     </p>
 
@@ -75,8 +75,10 @@ const Header = () => {
 
       {showModal && (
         <Modal
-          showModal={showModal}
-          setShowModal={() => setShowModal(!showModal)}
+          setShowModal={() => {
+            setShowModal(!showModal);
+            setShowDropDown(!showDropDown);
+          }}
         />
       )}
     </>
