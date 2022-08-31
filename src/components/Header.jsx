@@ -8,6 +8,7 @@ const Header = () => {
   const [showDropDown, setShowDropDown] = useState(false);
 
   const { user, logout } = UserAuth();
+
   return (
     <>
       <div className="h-16 border-b-[#a8b3cf33] border-b-[1px] flex items-center justify-between px-6 py-3">
@@ -34,7 +35,7 @@ const Header = () => {
                   // close dropdown when outside of dropdown is clicked
                 >
                   <div
-                    className="absolute rounded-md w-44 right-6 top-[70px] bg-white divide-gray-100 text-sm "
+                    className="absolute rounded-md w-44 right-6 top-[70px] bg-white divide-gray-100 text-sm after:triangle-up"
                     onClick={(e) => {
                       // do not close dropdown if anything inside dropdown content is clicked
                       e.stopPropagation();
@@ -74,12 +75,7 @@ const Header = () => {
       </div>
 
       {showModal && (
-        <Modal
-          setShowModal={() => {
-            setShowModal(!showModal);
-            setShowDropDown(!showDropDown);
-          }}
-        />
+        <Modal setShowDropDown={setShowDropDown} setShowModal={setShowModal} />
       )}
     </>
   );

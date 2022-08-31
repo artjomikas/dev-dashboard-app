@@ -49,7 +49,11 @@ const Modal = (props) => {
                 <button
                   key={title}
                   className="bg-white hover:bg-primary my-2 font-medium text-sm sm:typo h-10 rounded-[12px] px-[23px] flex flex-row items-center"
-                  onClick={() => provider().then(props.setShowModal)}
+                  onClick={() =>
+                    provider()
+                      .then(() => props.setShowModal(false))
+                      .then(() => props.setShowDropDown(false))
+                  }
                 >
                   {icon}
                   <span>Connect with {title}</span>
