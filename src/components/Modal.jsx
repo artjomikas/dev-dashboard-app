@@ -21,7 +21,7 @@ const Modal = (props) => {
       <div
         className="bg-[#ffffff3d] flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-100 outline-none px-4"
         // close modal when outside of modal is clicked
-        onClick={props.setShowModal}
+        onClick={() => props.setShowModal(false)}
       >
         <div
           className="relative mx-auto max-w-[450px] max-h-full w-full"
@@ -36,7 +36,7 @@ const Modal = (props) => {
             <AiOutlineClose
               className="absolute text-[25px] right-3 fill-primary cursor-pointer"
               // close modal if clicked close icon
-              onClick={props.setShowModal}
+              onClick={() => props.setShowModal(false)}
             />
 
             <span className="text-primary  text-sm sm:typo mb-8">
