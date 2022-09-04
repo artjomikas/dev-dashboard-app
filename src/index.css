@@ -22,4 +22,11 @@ body {
     border-right: 15px solid transparent;
     border-bottom: 15px solid white;
   }
+  .input__field {
+    @apply shadow-lg rounded-xl py-3 px-3 text-white leading-tight bg-input focus:outline-none focus:bg-[#323743] focus:border-primary border border-transparent;
+  }
+
+  .button__primary {
+    @apply flex px-4 py-[8px] bg-white rounded-[12px] font-semibold border leading-[20px] hover:bg-primary text-sm sm:typo hover:shadow-lg;
+  }
 }

@@ -9,14 +9,12 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <div className="App">
-      <ApolloProvider client={client}>
-        <AuthContextProvider>
-          <Header />
-          <Main />
-        </AuthContextProvider>
-      </ApolloProvider>
-    </div>
+    <ApolloProvider client={client}>
+      <AuthContextProvider>
+        <Header />
+        <Main />
+      </AuthContextProvider>
+    </ApolloProvider>
   );
 }
 

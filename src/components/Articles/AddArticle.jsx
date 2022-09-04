@@ -1,9 +1,19 @@
+import { useState } from "react";
+import AddArticleModal from "./AddArticleModal";
+
 const AddArticle = () => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <div className="relative ml-4 mt-6">
-      <button className="flex px-4 py-[8px] bg-white rounded-[12px] font-semibold border leading-[20px] hover:bg-primary text-sm sm:typo hover:shadow-lg">
+      <button
+        className="button__primary"
+        onClick={() => setShowModal(!showModal)}
+      >
         Add Article
       </button>
+
+      {showModal && <AddArticleModal setShowModal={setShowModal} />}
     </div>
   );
 };

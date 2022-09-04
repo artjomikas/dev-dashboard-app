@@ -1,5 +1,3 @@
-import avatar from "../../assets/avatar.png";
-import banner from "../../assets/banner.png";
 import { ImArrowUpRight2 } from "react-icons/im";
 
 
@@ -27,7 +25,7 @@ const ActicleBlock = (props) => {
           <button className="bg-white px-3 py-2  rounded-[8px] ">
             <div className="flex flex-row items-center gap-1">
               <p className="text-black font-semibold text-[12px]">Go</p>
-              <ImArrowUpRight2 className="fill-black text-sm " />
+              <ImArrowUpRight2 className="fill-black text-sm mb-[2px] text-[10px]" />
             </div>
           </button>
         </div>
