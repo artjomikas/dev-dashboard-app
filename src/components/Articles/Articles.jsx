@@ -18,6 +18,13 @@ const Articles = () => {
       {posts.map((post, i) => {
         return <ArticleBlock key={i} {...post}/>;
       })}
+      {posts.map((post, i) => {
+        return <ArticleBlock key={i} {...post}/>;
+      })}
+
+{posts.map((post, i) => {
+        return <ArticleBlock key={i} {...post}/>;
+      })}
     </div>
   );
 };

@@ -1,6 +1,7 @@
-import { Header, Articles, AddArticle, Main } from "./";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthContextProvider } from "./context/AuthContext";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { Pages } from './'
 
 const client = new ApolloClient({
   uri: "http://localhost:5000/graphql",
@@ -11,8 +12,9 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <AuthContextProvider>
-        <Header />
-        <Main />
+        <BrowserRouter>
+          <Pages />
+        </BrowserRouter>
       </AuthContextProvider>
     </ApolloProvider>
   );

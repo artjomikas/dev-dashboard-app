@@ -1,11 +1,19 @@
 import { ImArrowUpRight2 } from "react-icons/im";
 
+import { useRef } from "react";
+import { useHover } from "usehooks-ts";
 
 const ActicleBlock = (props) => {
-  const author = props.author[0]
+  const author = props.author[0];
+
+  const hoverRef = useRef(null);
+  const isHover = useHover(hoverRef);
 
   return (
-    <div className="bg-[#1C1F26] rounded-2xl flex flex-col h-full p-3 max-w-[310px] w-full border-[1px] border-solid border-[#383D47]">
+    <div
+      className="bg-[#1C1F26] rounded-2xl flex flex-col h-full p-3 max-w-[310px] w-full border-[1px] border-solid border-[#383D47] hover:border-[#898c92] shadow-lg shadow-[#111214]"
+      ref={hoverRef}
+    >
       <div className="flex flex-row justify-between">
         <div className="flex flex-row items-center gap-2 cursor-pointer break-words">
           <img
@@ -21,13 +29,15 @@ const ActicleBlock = (props) => {
           </div>
         </div>
 
-        <div className="opacity-0 hover:opacity-100">
-          <button className="bg-white px-3 py-2  rounded-[8px] ">
-            <div className="flex flex-row items-center gap-1">
-              <p className="text-black font-semibold text-[12px]">Go</p>
-              <ImArrowUpRight2 className="fill-black text-sm mb-[2px] text-[10px]" />
-            </div>
-          </button>
+        <div className={isHover ? `opacity-100` : `opacity-0`}>
+          <a href={props.permaLink} target="_blank">
+            <button className="bg-white px-3 py-2  rounded-[8px] ">
+              <div className="flex flex-row items-center gap-1">
+                <p className="text-black font-semibold text-[12px]">Go</p>
+                <ImArrowUpRight2 className="fill-black text-sm mb-[2px] text-[10px]" />
+              </div>
+            </button>
+          </a>
         </div>
       </div>
 
@@ -38,7 +48,7 @@ const ActicleBlock = (props) => {
       <div className="flex flex-1 flex-col mb-4 cursor-pointer">
         <div className="flex-1"></div>
         <div className="flex items-center text-[#A8B3CF] text-[12px] ">
-          Aug 15, 2022 - 1m read time
+          Aug 15, 2022 - {props.readTime}m read time
         </div>
       </div>
 

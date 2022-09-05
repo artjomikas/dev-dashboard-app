@@ -5,18 +5,19 @@ import Logo from "./Logo";
 import ProfileDropDown from "./ProfileDropDown";
 import Modal from "./Modal";
 import ProfileAvatar from "./ProfileAvatar";
+import {Link} from 'react-router-dom'
 
 const Header = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
 
-  const { user, logout } = UserAuth();
+  const { user } = UserAuth();
 
   return (
     <>
       <div className="h-16 border-b-[#a8b3cf33] border-b-[1px] flex items-center justify-between px-6 py-3">
-        <Logo />
-        
+      <Link to="/"><Logo /></Link>
+
         {user ? (
           user.photoURL && (
             <>
