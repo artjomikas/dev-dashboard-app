@@ -1,4 +1,4 @@
-import { Header, Main, Sidebar, AddArticleModal } from "../";
+import { Header, Main, Sidebar,Bookmarks } from "../";
 import { Route, Routes } from "react-router-dom";
 
 const Pages = () => {
