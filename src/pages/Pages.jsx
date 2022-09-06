@@ -8,6 +8,7 @@ const Pages = () => {
       <Sidebar>
         <Routes>
           <Route path="/" element={<Main />} />
+          <Route path="/bookmarks" element={<Bookmarks />} />
         </Routes>
       </Sidebar>
     </>

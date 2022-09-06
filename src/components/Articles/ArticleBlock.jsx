@@ -7,6 +7,11 @@ import {
 
 import { useRef } from "react";
 import { useHover } from "usehooks-ts";
+import Author from "../Author";
+import DateOfPosting from "../Date";
+import { UserAuth } from "../../context/AuthContext";
+import { ADD_BOOKMARK } from "../../mutations/addBookmark";
+import { useMutation } from "@apollo/client";
 
 const ActicleBlock = (props) => {
   const author = props.author;
@@ -16,6 +21,29 @@ const ActicleBlock = (props) => {
 
   const hoverRef = useRef(null);
   const isHover = useHover(hoverRef);
+  const { user } = UserAuth();
+
+  const [newBookmark] = useMutation(ADD_BOOKMARK);
+
+  const addBookmark = () => {
+    newBookmark({
+      variables: {
+        input: {
+          user_id: user.uid,
+          post_id: props.id,
+        },
+      },
+    });
+  };
+
+  const add = () => {
+    try {
+      addBookmark();
+      console.log("added!")
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div
@@ -23,26 +51,14 @@ const ActicleBlock = (props) => {
       ref={hoverRef}
     >
       <div className="flex flex-row justify-between">
-        <div className="flex flex-row items-center gap-2 cursor-pointer break-words">
-          <img
-            src={author.imageURL}
-            alt="Avatar of user who made a post"
-            className="flex h-8 w-8 md:h-6  md:w-6 rounded-full"
-          />
-          <div className="flex flex-col ">
-            <p className="text-[13px] font-bold leading-[11px]">
-              {author.name}
-            </p>
-            <p className="text-[#A8B3CF] text-[11px]">{author.username}</p>
-          </div>
-        </div>
+        <Author author={author} />
 
         <div className={isHover ? `opacity-100` : `opacity-0`}>
           <a href={props.permaLink} target="_blank">
             <button className="bg-white px-3 py-2  rounded-[8px] ">
               <div className="flex flex-row items-center gap-1">
                 <p className="text-black font-semibold text-[12px]">Go</p>
-                <AiOutlineEnter className="fill-black text-sm mb-[2px] text-[10px]" />
+                <AiOutlineEnter className="fill-black text-sm mb-[2px] text-[14px]" />
               </div>
             </button>
           </a>
@@ -55,10 +71,7 @@ const ActicleBlock = (props) => {
 
       <div className="flex flex-1 flex-col mb-4 cursor-pointer">
         <div className="flex-1"></div>
-        <div className="flex items-center text-[#A8B3CF] text-[12px] ">
-          {postDate.slice(0, 2).join(" ")}, {postDate.slice(2, 3).join(" ")} -{" "}
-          {props.readTime}m read time
-        </div>
+        <DateOfPosting readTime={props.readTime} postDate={postDate} />
       </div>
 
       <div className="flex flex-1 flex-col cursor-pointer mb-3">
@@ -70,7 +83,10 @@ const ActicleBlock = (props) => {
       </div>
 
       <div className="flex justify-between px-6 items-center text-[20px]">
-        <AiOutlineLike className="fill-[#A8B3CF] cursor-pointer" />
+        <AiOutlineLike
+          className="fill-[#A8B3CF] cursor-pointer"
+          onClick={() => add()}
+        />
 
         <AiOutlineMessage className="fill-[#A8B3CF] cursor-pointer" />
 
