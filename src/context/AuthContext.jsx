@@ -1,5 +1,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { auth, db } from "../firebase/firebase";
+import { useMutation, useLazyQuery } from "@apollo/client";
+import { ADD_USER } from "../mutations/addUser";
+import { GET_USER_BY_ID } from "../query/getUser";
 
 import {
   getAuth,
@@ -30,8 +33,11 @@ export const AuthContextProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const signInWithGithub = () => {
-    return signInWithPopup(auth, new GithubAuthProvider());
+  const signInWithGithub = async () => {
+    const githubUser = await signInWithPopup(auth, new GithubAuthProvider());
+    getUser({ variables: { id: githubUser.user.uid } });
+
+    return githubUser;
   };
 
   const signInWithGoogle = () => {
@@ -45,6 +51,31 @@ export const AuthContextProvider = ({ children }) => {
   const logout = () => {
     return signOut(auth);
   };
+  const [newUser] = useMutation(ADD_USER);
+
+  const addUser = (currentUser) => {
+    newUser({
+      variables: {
+        input: {
+          _id: currentUser.uid,
+          username: "@" + currentUser.reloadUserInfo.screenName,
+          imageURL: currentUser.photoURL,
+          name: currentUser.displayName,
+          email: currentUser.email,
+        },
+      },
+    });
+  };
+
+  const [getUser, { loading, error, data }] = useLazyQuery(GET_USER_BY_ID);
+
+  useEffect(() => {
+    if (!loading && data != undefined) {
+      if (data.getUser == null) {
+        addUser(user);
+      }
+    }
+  }, [data]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {

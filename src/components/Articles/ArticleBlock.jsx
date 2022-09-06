@@ -1,10 +1,13 @@
-import { ImArrowUpRight2 } from "react-icons/im";
+import { AiOutlineEnter } from "react-icons/ai";
 
 import { useRef } from "react";
 import { useHover } from "usehooks-ts";
 
 const ActicleBlock = (props) => {
-  const author = props.author[0];
+  const author = props.author;
+
+  const date = new Date(parseInt(props.createdAt));
+  const postDate = date.toString().split(" ").slice(1, 4);
 
   const hoverRef = useRef(null);
   const isHover = useHover(hoverRef);
@@ -17,7 +20,7 @@ const ActicleBlock = (props) => {
       <div className="flex flex-row justify-between">
         <div className="flex flex-row items-center gap-2 cursor-pointer break-words">
           <img
-            src={author.image}
+            src={author.imageURL}
             alt="Avatar of user who made a post"
             className="flex h-8 w-8 md:h-6  md:w-6 rounded-full"
           />
@@ -34,7 +37,7 @@ const ActicleBlock = (props) => {
             <button className="bg-white px-3 py-2  rounded-[8px] ">
               <div className="flex flex-row items-center gap-1">
                 <p className="text-black font-semibold text-[12px]">Go</p>
-                <ImArrowUpRight2 className="fill-black text-sm mb-[2px] text-[10px]" />
+                <AiOutlineEnter className="fill-black text-sm mb-[2px] text-[10px]" />
               </div>
             </button>
           </a>
@@ -48,13 +51,13 @@ const ActicleBlock = (props) => {
       <div className="flex flex-1 flex-col mb-4 cursor-pointer">
         <div className="flex-1"></div>
         <div className="flex items-center text-[#A8B3CF] text-[12px] ">
-          Aug 15, 2022 - {props.readTime}m read time
+          {postDate.slice(0,2).join(" ")}, {postDate.slice(2,3).join(" ")} - {props.readTime}m read time
         </div>
       </div>
 
       <div className="flex flex-1 flex-col cursor-pointer mb-3">
         <img
-          src={props.image}
+          src={props.imageURL}
           alt="Image of article"
           className="object-cover h-40 rounded-2xl"
         />

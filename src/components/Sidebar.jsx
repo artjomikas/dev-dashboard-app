@@ -1,16 +1,40 @@
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import {
+  AiOutlineLeft,
+  AiOutlineRight,
+  AiOutlineHome,
+  AiOutlineFire,
+  AiOutlineLink,
+  AiOutlineLike,
+  AiOutlineHistory
+} from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 
 const Sidebar = ({ children }) => {
-  const [isOpen, setOpen] = useState(true);
+  const [isOpen, setOpen] = useState(false);
 
   const Menus = [
-    { title: "Home", path: "" },
-    { title: "Popular", path: "popular" },
-    { title: "Submit Article", path: "submit" },
-    { title: "Bookmarks", path: "bookmarks" },
-    { title: "Reading History", path: "history" },
+    { title: "Home", path: "", icon: <AiOutlineHome className="ml-[6px]" /> },
+    {
+      title: "Popular",
+      path: "popular",
+      icon: <AiOutlineFire className="ml-[6px]" />,
+    },
+    {
+      title: "Submit Article",
+      path: "submit",
+      icon: <AiOutlineLink className="ml-[6px]" />,
+    },
+    {
+      title: "Bookmarks",
+      path: "bookmarks",
+      icon: <AiOutlineLike className="ml-[6px]" />,
+    },
+    {
+      title: "Reading History",
+      path: "history",
+      icon: <AiOutlineHistory className="ml-[6px]" />,
+    },
   ];
 
   const buttonMinimazer = (
@@ -19,9 +43,9 @@ const Sidebar = ({ children }) => {
       onClick={() => setOpen(!isOpen)}
     >
       {isOpen ? (
-        <FiChevronLeft className="mx-auto mr-[5px]" />
+        <AiOutlineLeft className="mx-auto mr-[6px] text-[13px]" />
       ) : (
-        <FiChevronRight className="mx-auto ml-[5px]" />
+        <AiOutlineRight className="mx-auto ml-[6px] text-[13px]" />
       )}
     </div>
   );
@@ -35,24 +59,28 @@ const Sidebar = ({ children }) => {
       >
         {buttonMinimazer}
 
-        <ul className="flex flex-col pt-20 gap-2 ">
+        <ul className="flex flex-col pt-20 gap-3  ">
           {Menus.map((element, index) => (
             <NavLink
               to={element.path}
               key={index}
               className={({ isActive }) =>
                 isActive
-                  ? "flex cursor-pointer text-white p-3 rounded-xl bg-[#272a31] items-center hover:scale-[1.05] duration-100 ease-out"
-                  : "flex cursor-pointer text-primary p-3 rounded-xl items-center hover:text-white  hover:scale-[1.05] duration-100 ease-out"
+                  ? "flex cursor-pointer text-white p-3 rounded-xl bg-[#272a31] items-center hover:scale-[1.05] "
+                  : "flex cursor-pointer text-primary p-3 rounded-xl items-center hover:text-white  hover:scale-[1.05] "
               }
             >
-              <p
-                className={`${
-                  !isOpen && "scale-0 "
-                } text-[13px] font-medium  whitespace-nowrap`}
-              >
-                {element.title}
-              </p>
+              <div className="flex flex-row gap-x-4 items-center">
+                <div className="flex items-center">{element.icon}</div>
+
+                <p
+                  className={`${
+                    !isOpen && "scale-0 "
+                  } text-[13px] font-normal  whitespace-nowrap leading-none`}
+                >
+                  {element.title}
+                </p>
+              </div>
             </NavLink>
           ))}
         </ul>

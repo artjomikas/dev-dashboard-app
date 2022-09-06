@@ -29,13 +29,13 @@ const AddArticleModal = (props) => {
       variables: {
         input: {
           title: titleRef.current.value,
-          image: imageRef.current.value,
+          imageURL: imageRef.current.value,
           permaLink: linkRef.current.value,
           readTime: Number(readtimeRef.current.value),
           author: {
             name: user.reloadUserInfo.displayName,
             username: "@" + user.reloadUserInfo.screenName,
-            image: user.reloadUserInfo.photoUrl,
+            imageURL: user.reloadUserInfo.photoUrl,
           },
         },
       },

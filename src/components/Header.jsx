@@ -12,7 +12,6 @@ const Header = () => {
   const [showDropDown, setShowDropDown] = useState(false);
 
   const { user } = UserAuth();
-
   return (
     <>
       <div className="h-16 border-b-[#a8b3cf33] border-b-[1px] flex items-center justify-between px-6 py-3">

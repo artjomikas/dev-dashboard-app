@@ -8,7 +8,6 @@ const Pages = () => {
       <Sidebar>
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/submit" element={<AddArticleModal />} />
         </Routes>
       </Sidebar>
     </>
