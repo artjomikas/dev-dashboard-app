@@ -96,6 +96,7 @@ const AddArticleModal = (props) => {
               >
                 <p className="mx-auto">Submit article</p>
               </button>
+              
             </div>
           </form>
         </div>

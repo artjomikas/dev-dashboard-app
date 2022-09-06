@@ -1,4 +1,9 @@
-import { AiOutlineEnter } from "react-icons/ai";
+import {
+  AiOutlineEnter,
+  AiOutlineMore,
+  AiOutlineLike,
+  AiOutlineMessage,
+} from "react-icons/ai";
 
 import { useRef } from "react";
 import { useHover } from "usehooks-ts";
@@ -51,7 +56,8 @@ const ActicleBlock = (props) => {
       <div className="flex flex-1 flex-col mb-4 cursor-pointer">
         <div className="flex-1"></div>
         <div className="flex items-center text-[#A8B3CF] text-[12px] ">
-          {postDate.slice(0,2).join(" ")}, {postDate.slice(2,3).join(" ")} - {props.readTime}m read time
+          {postDate.slice(0, 2).join(" ")}, {postDate.slice(2, 3).join(" ")} -{" "}
+          {props.readTime}m read time
         </div>
       </div>
 
@@ -61,6 +67,14 @@ const ActicleBlock = (props) => {
           alt="Image of article"
           className="object-cover h-40 rounded-2xl"
         />
+      </div>
+
+      <div className="flex justify-between px-6 items-center text-[20px]">
+        <AiOutlineLike className="fill-[#A8B3CF] cursor-pointer" />
+
+        <AiOutlineMessage className="fill-[#A8B3CF] cursor-pointer" />
+
+        <AiOutlineMore className="text-[22px] fill-[#A8B3CF]  cursor-pointer" />
       </div>
     </div>
   );
