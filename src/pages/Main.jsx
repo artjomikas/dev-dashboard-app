@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 
 const Main = () => {
   const { loading, error, data } = useQuery(GET_ALL_POSTS);
+
+
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
