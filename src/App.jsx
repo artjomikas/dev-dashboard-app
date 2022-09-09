@@ -3,6 +3,7 @@ import { AuthContextProvider } from "./context/AuthContext";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { Pages } from './'
 
+
 const client = new ApolloClient({
   uri: "http://localhost:5000/graphql",
   cache: new InMemoryCache(),

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { auth, db } from "../firebase/firebase";
+import { auth } from "../firebase/firebase";
 import { useMutation, useLazyQuery } from "@apollo/client";
 import { ADD_USER } from "../mutations/addUser";
 import { GET_USER_BY_ID } from "../query/getUser";
@@ -21,12 +21,10 @@ const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
+  const [initializing, setInitializing] = useState(true);
 
   const signUp = (email, password) => {
     createUserWithEmailAndPassword(auth, email, password);
-    return setDoc(doc(db, "users", email), {
-      watchList: [],
-    });
   };
 
   const signIn = (email, password) => {
@@ -78,14 +76,13 @@ export const AuthContextProvider = ({ children }) => {
   }, [data]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      setInitializing(false);
     });
-
-    return () => {
-      unsubscribe();
-    };
   }, []);
+
+  if (initializing) return null;
 
   return (
     <AuthContext.Provider
