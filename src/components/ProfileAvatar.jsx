@@ -9,7 +9,7 @@ const ProfileAvatar = (props) => {
       onClick={() => props.setShowDropDown(!props.showDropDown)}
     >
       <img
-        src={user.photoURL}
+        src={user.imageURL}
         className="h-9 w-9 rounded-full ring-2 ring-white "
         alt="Github Profile Avatar"
       />

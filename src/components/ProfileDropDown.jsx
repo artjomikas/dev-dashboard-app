@@ -1,4 +1,5 @@
 import { UserAuth } from "../context/AuthContext";
+import { NavLink } from "react-router-dom";
 
 const ProfileDropDown = (props) => {
   const { user, logout } = UserAuth();
@@ -16,20 +17,28 @@ const ProfileDropDown = (props) => {
           e.stopPropagation();
         }}
       >
-        <p className="block py-2 px-4 border-b break-words">
-          Signed in as <b>{user.displayName}</b>
+        <p className="block py-2 px-4 border-b break-words mb-1 cursor-pointer">
+          Signed in as <b>{user.name}</b>
         </p>
 
-        <ul className="cursor-pointer rounded-xl ">
-          <li className="block py-2 px-4 hover:bg-gray-100 ">Profile</li>
-          <li className="block py-2 px-4 hover:bg-gray-100 ">Settings</li>
-          <li
-            className="block py-2 mb-4 px-4 hover:bg-gray-100 "
+        <div className="cursor-pointer rounded-xl">
+          <p className="block py-1"></p>
+
+          <NavLink
+            to="profile"
+            onClick={() => props.setShowDropDown(!props.showDropDown)}
+          >
+            <p className="block py-2 px-4 hover:bg-gray-100">Profile</p>
+          </NavLink>
+
+          <p className="block py-2 px-4 hover:bg-gray-100">Settings</p>
+          <p
+            className="block py-2 mb-4 px-4 hover:bg-gray-100"
             onClick={() => logout()}
           >
             Sign Out
-          </li>
-        </ul>
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -15,7 +15,6 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
 } from "firebase/auth";
-import { doc, setDoc, getDoc } from "firebase/firestore";
 
 const AuthContext = createContext();
 
@@ -70,15 +69,41 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     if (!loading && data != undefined) {
       if (data.getUser == null) {
-        addUser(user);
+        console.log(data);
       }
     }
   }, [data]);
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setInitializing(false);
+      if (currentUser != null) {
+        getUser({ variables: { id: currentUser.uid } }).then((response) => {
+          if (response.data.getUser.length == 0) {
+            newUser({
+              variables: {
+                input: {
+                  _id: currentUser.uid,
+                  username: "@" + currentUser.reloadUserInfo.screenName,
+                  imageURL: currentUser.photoURL,
+                  name: currentUser.displayName,
+                  email: currentUser.email,
+                },
+              },
+            });
+          }
+          else{
+            const result = response.data.getUser[0]
+            const {__typename, ...rest} = result;
+            setUser(rest)
+            console.log(user)
+          }
+        });
+
+        setInitializing(false);
+      } else {
+        setUser(null);
+        setInitializing(false);
+      }
     });
   }, []);
 

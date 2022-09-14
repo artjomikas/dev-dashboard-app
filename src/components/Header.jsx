@@ -18,7 +18,7 @@ const Header = () => {
       <Link to="/"><Logo /></Link>
 
         {user ? (
-          user.photoURL && (
+          user.imageURL && (
             <>
               <ProfileAvatar
                 setShowDropDown={setShowDropDown}

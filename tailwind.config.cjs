@@ -11,8 +11,10 @@ module.exports = {
       },
       colors: {
         'primary': '#cfd6e6',
+        'secondary': '#1C1F26',
         'dark': '#17191F',
         'input': '#22252D'
+
       }
     },
   },

@@ -5,7 +5,7 @@ import {
   AiOutlineMessage,
 } from "react-icons/ai";
 
-import { useRef, useState } from "react";
+import { useRef, useState,useEffect } from "react";
 import { useHover } from "usehooks-ts";
 import Author from "../Author";
 import DateOfPosting from "../Date";
@@ -26,6 +26,8 @@ const ActicleBlock = (props) => {
   const [newLike] = useMutation(ADD_LIKE);
   const [deleteLike] = useMutation(REMOVE_LIKE);
 
+
+
   function addLike() {
     try {
       newLike({
@@ -34,7 +36,7 @@ const ActicleBlock = (props) => {
           post_id: props.id,
         },
       });
-      props.refetch();
+      props.refetch()
     } catch (error) {
       console.log(error);
     }
@@ -48,7 +50,7 @@ const ActicleBlock = (props) => {
           post_id: props.id,
         },
       });
-      props.refetch();
+      props.refetch()
     } catch (error) {
       console.log(error);
     }
