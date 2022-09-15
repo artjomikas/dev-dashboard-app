@@ -5,7 +5,7 @@ import { Pages } from './'
 
 
 const client = new ApolloClient({
-  uri: "http://localhost:5000/graphql",
+  uri: "https://dev-graphql-server-artjomikas.vercel.app/graphql",
   cache: new InMemoryCache(),
 });
 
