@@ -9,7 +9,6 @@ const Pages = () => {
   const { loading, error, data, refetch } = useQuery(GET_ALL_POSTS);
   const [posts, setPosts] = useState([]);
   const { user } = UserAuth();
-  console.log(user);
 
   useEffect(() => {
     if (!loading) {

@@ -5,7 +5,7 @@ import { Pages } from './'
 
 
 const client = new ApolloClient({
-  uri: "https://dev-graphql-server-artjomikas.vercel.app/graphql",
+  uri: "https://dev-server-v1.herokuapp.com/graphql",
   cache: new InMemoryCache(),
 });
 
