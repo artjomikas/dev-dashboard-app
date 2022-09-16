@@ -21,6 +21,7 @@ const Articles = (props) => {
           bookmarked = bookmarksSet.has(user._id);
         } else if (user?._id == undefined) {
           liked = false;
+          bookmarked = false;
         }
 
         return (

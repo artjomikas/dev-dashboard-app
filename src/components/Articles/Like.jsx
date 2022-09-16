@@ -1,11 +1,11 @@
 import { useMutation } from "@apollo/client";
-import { AiOutlineArrowUp } from "react-icons/ai";
+import { UpIcon } from "../../icons/UpIcon";
 import { ADD_LIKE } from "../../mutations/addLike";
 import { REMOVE_LIKE } from "../../mutations/removeLike";
 
 import { useState, useEffect } from "react";
 
-const Like = ({like, likesNum, user_id, post_id, refetch}) => {
+const Like = ({ like, likesNum, user_id, post_id, refetch }) => {
   const [newLike] = useMutation(ADD_LIKE);
   const [deleteLike] = useMutation(REMOVE_LIKE);
 
@@ -50,13 +50,11 @@ const Like = ({like, likesNum, user_id, post_id, refetch}) => {
   };
   return (
     <div
-      className="flex flex-row items-center cursor-pointer"
+      className="flex flex-row items-center cursor-pointer w-full max-w-[40px]"
       onClick={liked ? () => removeLike() : () => addLike()}
     >
-      <div className={`icon hover:icon_green`}>
-        <AiOutlineArrowUp
-          className={`fill-[#A8B3CF] ${liked && "fill-[#1aaa67]"}`}
-        />
+      <div className={`icon hover:icon_green ${liked && "icon_green"}`}>
+        <UpIcon />
       </div>
       <p
         className={`text-[16px] font-medium mt-[4px] text-[#A8B3CF] pl-[2px] ${

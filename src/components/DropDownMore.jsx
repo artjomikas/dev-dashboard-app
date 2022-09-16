@@ -1,55 +1,4 @@
-import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-import { useMutation,useQuery } from "@apollo/client";
-import { ADD_BOOKMARK } from "../mutations/addBookmark";
-import { REMOVE_BOOKMARK } from "../mutations/removeBookmark";
-import { GET_BOOKMARKS } from "../query/getBookmarks";
-
 const DropDownMore = (props) => {
-  const [newBookmark] = useMutation(ADD_BOOKMARK);
-  const [removeBookmark] = useMutation(REMOVE_BOOKMARK);
-
-  const {
-    loading,
-    error,
-    data,
-    refetch: refetchBookmarks,
-  } = useQuery(GET_BOOKMARKS, {
-    variables: { user_id: props.user_id },
-  });
-
-  const addBookmark = () => {
-    try {
-      newBookmark({
-        variables: {
-          user_id: props.user_id,
-          post_id: props.post_id,
-        },
-      });
-
-      props.refetch();
-      refetchBookmarks();
-      props.setShowDropDown(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const deleteBookmark = () => {
-    try {
-      removeBookmark({
-        variables: {
-          user_id: props.user_id,
-          post_id: props.post_id,
-        },
-      });
-      props.refetch();
-      refetchBookmarks();
-      props.setShowDropDown(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <div className="absolute">
       <div
@@ -64,7 +13,6 @@ const DropDownMore = (props) => {
               className="flex items-center gap-1"
               onClick={() => deleteBookmark()}
             >
-              <AiOutlineMinus />
               Remove from bookmarks
             </div>
           </div>
@@ -74,7 +22,6 @@ const DropDownMore = (props) => {
               className="flex items-center gap-1"
               onClick={() => addBookmark()}
             >
-              <AiOutlinePlus />
               Add to bookmarks
             </div>
           </div>
