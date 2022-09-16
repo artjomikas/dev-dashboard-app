@@ -1,60 +1,22 @@
 import {
   AiOutlineEnter,
   AiOutlineMore,
-  AiOutlineArrowUp,
   AiOutlineMessage,
 } from "react-icons/ai";
 
-import { useRef, useState,useEffect } from "react";
+import { useRef, useState } from "react";
 import { useHover } from "usehooks-ts";
+
+import Like from "./Like";
 import Author from "../Author";
 import DateOfPosting from "../Date";
 import DropDownMore from "../DropDownMore";
-import { ADD_LIKE } from "../../mutations/addLike";
-import { REMOVE_LIKE } from "../../mutations/removeLike";
-import { useMutation } from "@apollo/client";
 
 const ActicleBlock = (props) => {
   const [showDropDown, setShowDropDown] = useState(false);
 
   const hoverRef = useRef(null);
   const isHover = useHover(hoverRef);
-
-  const date = new Date(parseInt(props.createdAt));
-  const postDate = date.toString().split(" ").slice(1, 4);
-
-  const [newLike] = useMutation(ADD_LIKE);
-  const [deleteLike] = useMutation(REMOVE_LIKE);
-
-
-
-  function addLike() {
-    try {
-      newLike({
-        variables: {
-          user_id: props.user,
-          post_id: props.id,
-        },
-      });
-      props.refetch()
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const removeLike = () => {
-    try {
-      deleteLike({
-        variables: {
-          user_id: props.user,
-          post_id: props.id,
-        },
-      });
-      props.refetch()
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div
@@ -82,7 +44,7 @@ const ActicleBlock = (props) => {
 
       <div className="flex flex-1 flex-col mb-2 cursor-pointer">
         <div className="flex-1"></div>
-        <DateOfPosting readTime={props.readTime} postDate={postDate} />
+        <DateOfPosting readTime={props.readTime} postDate={props.createdAt} />
       </div>
 
       <div className="flex flex-1 flex-col cursor-pointer mb-2">
@@ -99,25 +61,33 @@ const ActicleBlock = (props) => {
         </div>
       ) : (
         <div className="flex justify-around items-center text-[20px] max-h-[30px] h-full">
-          <div
+          <Like
+            like={props.liked}
+            likesNum={props.likesNum}
+            user_id={props.user}
+            post_id={props.id}
+            refetch={props.refetch}
+          />
+
+          {/* <div
             className="flex flex-row items-center cursor-pointer"
-            onClick={props.liked ? () => removeLike() : () => addLike()}
+            onClick={liked ? () => removeLike() : () => addLike()}
           >
             <div className={`icon hover:icon_green`}>
               <AiOutlineArrowUp
-                className={`fill-[#A8B3CF] ${props.liked && "fill-[#1aaa67]"}`}
+                className={`fill-[#A8B3CF] ${liked && "fill-[#1aaa67]"}`}
               />
             </div>
             <p
               className={`text-[16px] font-medium mt-[4px] text-[#A8B3CF] pl-[2px] ${
-                props.likesNum === 0
+                likesNumber === 0
                   ? "hidden"
-                  : `${props.liked ? "text-[#1aaa67]" : "text-[#A8B3CF]"}`
+                  : `${liked ? "text-[#1aaa67]" : "text-[#A8B3CF]"}`
               }`}
             >
-              {props.likesNum}
+              {likesNumber}
             </p>
-          </div>
+          </div> */}
 
           <div className="icon hover:icon_green">
             <AiOutlineMessage className="fill-[#A8B3CF] " />

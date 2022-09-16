@@ -1,4 +1,4 @@
-import { UserAuth } from "../context/AuthContext";
+import { UserAuth } from "../../context/AuthContext";
 import { NavLink } from "react-router-dom";
 
 const ProfileDropDown = (props) => {

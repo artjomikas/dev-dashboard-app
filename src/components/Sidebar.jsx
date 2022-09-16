@@ -37,7 +37,7 @@ const Sidebar = ({ children }) => {
     },
   ];
 
-  const buttonMinimazer = (
+  const closeSidebarButton = (
     <div
       className="flex absolute w-6 h-6 top-[68px] -right-3.5 bg-white rounded-full items-center content-center cursor-pointer hover:bg-[#ffffffda] duration-100 ease-out"
       onClick={() => setOpen(!isOpen)}
@@ -57,7 +57,7 @@ const Sidebar = ({ children }) => {
           isOpen ? "w-60" : "w-16"
         } h-screen relative px-[5px] pt-8 duration-300 border-r-[1px] border-[#2D323B]`}
       >
-        {buttonMinimazer}
+        {closeSidebarButton}
 
         <ul className="flex flex-col pt-20 gap-3  ">
           {Menus.map((element, index) => (

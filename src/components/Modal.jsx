@@ -5,7 +5,7 @@ import Logo from "./Logo";
 import { UserAuth } from "../context/AuthContext";
 
 const Modal = (props) => {
-  const { signInWithGithub, signInWithGoogle, user } = UserAuth();
+  const { signInWithGithub, signInWithGoogle } = UserAuth();
 
   const buttonArray = [
     [
@@ -14,7 +14,6 @@ const Modal = (props) => {
       signInWithGithub,
     ],
     [<FcGoogle className="text-[23px] mr-2" />, "Google", signInWithGoogle],
-    [<AiOutlineMail className="text-[23px] mr-2" />, "Email", signInWithGithub],
   ];
   return (
     <div
@@ -48,11 +47,7 @@ const Modal = (props) => {
               <button
                 key={title}
                 className="bg-white hover:bg-primary my-2 font-medium text-sm sm:typo h-10 rounded-[12px] px-[23px] flex flex-row items-center"
-                onClick={() =>
-                  provider()
-                    .then(() => props.setShowModal(false))
-                    .then(() => props.setShowDropDown(false))
-                }
+                onClick={() => provider().then(() => props.setShowModal(false))}
               >
                 {icon}
                 <span>Connect with {title}</span>

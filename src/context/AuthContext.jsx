@@ -38,7 +38,9 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const signInWithGoogle = () => {
-    return signInWithPopup(auth, new GoogleAuthProvider());
+    const googleUser =  signInWithPopup(auth, new GoogleAuthProvider());
+    getUser({ variables: { id: googleUser.user.uid } });
+    return googleUser
   };
 
   const resetPassword = (email) => {

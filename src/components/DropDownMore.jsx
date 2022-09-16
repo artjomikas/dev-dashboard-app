@@ -2,7 +2,7 @@ import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { useMutation,useQuery } from "@apollo/client";
 import { ADD_BOOKMARK } from "../mutations/addBookmark";
 import { REMOVE_BOOKMARK } from "../mutations/removeBookmark";
-import { GET_BOOKMARKS_BY_USER_ID } from "../query/getBookmarksByUserID";
+import { GET_BOOKMARKS } from "../query/getBookmarks";
 
 const DropDownMore = (props) => {
   const [newBookmark] = useMutation(ADD_BOOKMARK);
@@ -13,7 +13,7 @@ const DropDownMore = (props) => {
     error,
     data,
     refetch: refetchBookmarks,
-  } = useQuery(GET_BOOKMARKS_BY_USER_ID, {
+  } = useQuery(GET_BOOKMARKS, {
     variables: { user_id: props.user_id },
   });
 

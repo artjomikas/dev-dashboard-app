@@ -1,4 +1,4 @@
-import { UserAuth } from "../context/AuthContext";
+import { UserAuth } from "../../context/AuthContext";
 
 const ProfileAvatar = (props) => {
   const { user } = UserAuth();

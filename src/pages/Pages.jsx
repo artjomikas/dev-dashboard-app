@@ -1,4 +1,4 @@
-import { Header, Main, Sidebar, Bookmarks, Profile } from "../";
+import { Header, Home, Sidebar, Bookmarks, Profile } from "../";
 import { Route, Routes } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_POSTS } from "../query/posts";
@@ -23,7 +23,7 @@ const Pages = () => {
         <Routes>
           <Route
             path="/"
-            element={<Main refetch={refetch} posts={posts} user={user} />}
+            element={<Home refetch={refetch} posts={posts} user={user} />}
           />
           <Route
             path="/bookmarks"

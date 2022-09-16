@@ -1,10 +1,14 @@
 import Articles from "../components/Articles/Articles";
 import { useQuery } from "@apollo/client";
-import { GET_BOOKMARKS_BY_USER_ID } from "../query/getBookmarksByUserID";
+import { GET_BOOKMARKS } from "../query/getBookmarks";
 import { useState, useEffect } from "react";
 
 const Bookmarks = ({ user, refetch }) => {
-  const { loading, error, data, refetch:refetchBookmarks } = useQuery(GET_BOOKMARKS_BY_USER_ID, {
+  const {
+    loading,
+    data,
+    refetch: refetchBookmarks,
+  } = useQuery(GET_BOOKMARKS, {
     variables: { user_id: user._id },
   });
 
@@ -13,7 +17,6 @@ const Bookmarks = ({ user, refetch }) => {
   useEffect(() => {
     if (!loading) {
       setPosts(data.getBookmarks);
-      // setPosts(data.getBookmarkByUserID.map((e) => (e = e.post_id)));
     }
   }, [data]);
 
@@ -22,7 +25,12 @@ const Bookmarks = ({ user, refetch }) => {
       <h1 className="pl-6 pt-8 pb-3 text-white text-xl font-semibold leading-tight">
         Your Bookmarks
       </h1>
-      <Articles user={user} posts={posts} refetch={refetch} refetchBookmarks={refetchBookmarks} />
+      <Articles
+        user={user}
+        posts={posts}
+        refetch={refetch}
+        refetchBookmarks={refetchBookmarks}
+      />
     </div>
   );
 };
