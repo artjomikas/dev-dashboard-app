@@ -1,4 +1,4 @@
-import { Header, Home, Sidebar, Bookmarks, Profile } from "../";
+import { Header, Home, Sidebar, Bookmarks, Profile, Settings } from "../";
 import { Route, Routes } from "react-router-dom";
 
 const Pages = () => {
@@ -10,6 +10,7 @@ const Pages = () => {
           <Route path="/" element={<Home />} />
           <Route path="/bookmarks" element={<Bookmarks />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </Sidebar>
     </>

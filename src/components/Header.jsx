@@ -45,7 +45,7 @@ const Header = () => {
         )}
       </div>
 
-      {showModal && <Modal setShowModal={setShowModal} />}
+      {showModal && <Modal setShowModal={setShowModal} setShowDropDown={setShowDropDown} />}
     </>
   );
 };

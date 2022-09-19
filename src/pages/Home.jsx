@@ -15,6 +15,7 @@ const Home = () => {
   useEffect(() => {
     if (!loading) {
       setPosts(data.getAllPosts);
+      console.log(data.getAllPosts)
     }
   }, [data]);
 

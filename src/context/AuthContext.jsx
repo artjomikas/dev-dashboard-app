@@ -38,10 +38,10 @@ export const AuthContextProvider = ({ children }) => {
     return githubUser;
   };
 
-  const signInWithGoogle = () => {
-    const googleUser =  signInWithPopup(auth, new GoogleAuthProvider());
+  const signInWithGoogle = async () => {
+    const googleUser = await signInWithPopup(auth, new GoogleAuthProvider());
     getUser({ variables: { id: googleUser.user.uid } });
-    return googleUser
+    return googleUser;
   };
 
   const resetPassword = (email) => {
@@ -52,20 +52,6 @@ export const AuthContextProvider = ({ children }) => {
     return signOut(auth);
   };
   const [newUser] = useMutation(ADD_USER);
-
-  const addUser = (currentUser) => {
-    newUser({
-      variables: {
-        input: {
-          _id: currentUser.uid,
-          username: "@" + currentUser.reloadUserInfo.screenName,
-          imageURL: currentUser.photoURL,
-          name: currentUser.displayName,
-          email: currentUser.email,
-        },
-      },
-    });
-  };
 
   const [getUser, { loading, error, data }] = useLazyQuery(GET_USER_BY_ID);
 
@@ -87,18 +73,32 @@ export const AuthContextProvider = ({ children }) => {
               variables: {
                 input: {
                   _id: currentUser.uid,
-                  username: "@" + currentUser.reloadUserInfo.screenName,
+                  username:
+                    currentUser.reloadUserInfo.screenName !== undefined
+                      ? currentUser.reloadUserInfo.screenName
+                      : "",
                   imageURL: currentUser.photoURL,
                   name: currentUser.displayName,
                   email: currentUser.email,
+                  provider: currentUser.providerData[0].providerId.slice(0, -4),
                 },
               },
             });
-          }
-          else{
-            const result = response.data.getUser[0]
-            const {__typename, ...rest} = result;
-            setUser(rest)
+            setUser({
+              _id: currentUser.uid,
+              username:
+                currentUser.reloadUserInfo.screenName !== undefined
+                  ? currentUser.reloadUserInfo.screenName
+                  : "",
+              imageURL: currentUser.photoURL,
+              name: currentUser.displayName,
+              email: currentUser.email,
+              provider: currentUser.providerData[0].providerId.slice(0, -4),
+            });
+          } else {
+            const result = response.data.getUser[0];
+            const { __typename, ...rest } = result;
+            setUser(rest);
           }
         });
 
@@ -122,7 +122,7 @@ export const AuthContextProvider = ({ children }) => {
         signInWithGoogle,
         resetPassword,
         user,
-        userId
+        userId,
       }}
     >
       {children}

@@ -6,42 +6,27 @@ import { ADD_BOOKMARK } from "../../mutations/addBookmark";
 import { REMOVE_BOOKMARK } from "../../mutations/removeBookmark";
 import { GET_ALL_POSTS } from "../../query/getAllPostsAggregate";
 import { GET_BOOKMARKS } from "../../query/getBookmarks";
-import { useState, useEffect } from "react";
 
 const Bookmark = ({ bookmark, user_id, post_id }) => {
-  // const [user, setUser] = useState();
-  // const [post, setPost] = useState();
-
-  // useEffect(() => {
-  //   setUser(user);
-  //   setPost(post);
-  // }, []);
-
   const [newBookmark] = useMutation(ADD_BOOKMARK, {
     update(cache) {
-      const { getAllPosts } = cache.readQuery({
-        query: GET_ALL_POSTS,
-        variables: {
-          user: user_id,
-        },
-      });
-
-      const { getAllBookmarks } = cache.readQuery({
-        query: GET_ALL_POSTS,
-        variables: {
-          user: user_id,
-        },
-      });
-
-      cache.writeQuery({
-        query: GET_ALL_POSTS,
-        variables: { user: user_id },
-        data: {
-          getAllPosts: getAllPosts.map((post) =>
-            post._id === post_id ? { ...post, bookmarked: true } : post
-          ),
-        },
-      });
+      try {
+        const { getAllPosts } = cache.readQuery({
+          query: GET_ALL_POSTS,
+          variables: {
+            user: user_id,
+          },
+        });
+        cache.writeQuery({
+          query: GET_ALL_POSTS,
+          variables: { user: user_id },
+          data: {
+            getAllPosts: getAllPosts.map((post) =>
+              post._id === post_id ? { ...post, bookmarked: true } : post
+            ),
+          },
+        });
+      } catch (error) {}
     },
     refetchQueries: [
       {

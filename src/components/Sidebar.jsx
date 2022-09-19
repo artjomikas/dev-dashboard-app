@@ -4,12 +4,12 @@ import {
   AiOutlineHome,
   AiOutlineFire,
   AiOutlineLink,
-  AiOutlineLike,
-  AiOutlineHistory
+  AiOutlineHistory,
 } from "react-icons/ai";
+
+import { BsBookmarks } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
-
 
 const Sidebar = ({ children }) => {
   const [isOpen, setOpen] = useState(false);
@@ -29,7 +29,7 @@ const Sidebar = ({ children }) => {
     {
       title: "Bookmarks",
       path: "bookmarks",
-      icon: <AiOutlineLike className="ml-[6px]" />,
+      icon: <BsBookmarks className="ml-[6px] text-[15px]" />,
     },
     {
       title: "Reading History",

@@ -17,12 +17,12 @@ const Modal = (props) => {
   ];
   return (
     <div
-      className="bg-[#ffffff3d] flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-100 outline-none px-4"
+      className="bg-[#ffffff3d] flex justify-center items-center pb-[10%] overflow-x-hidden overflow-y-auto fixed inset-0 z-100 outline-none px-4"
       // close modal when outside of modal is clicked
       onClick={() => props.setShowModal(false)}
     >
       <div
-        className="relative mx-auto max-w-[450px] max-h-full w-full"
+        className="relative mx-auto max-w-[450px] max-h-[1/2] w-full"
         onClick={(e) => {
           // do not close modal if anything inside modal content is clicked
           e.stopPropagation();
@@ -47,7 +47,10 @@ const Modal = (props) => {
               <button
                 key={title}
                 className="bg-white hover:bg-primary my-2 font-medium text-sm sm:typo h-10 rounded-[12px] px-[23px] flex flex-row items-center"
-                onClick={() => provider().then(() => props.setShowModal(false))}
+                onClick={() => provider().then(() => {
+                   props.setShowModal(false) 
+                   props.setShowDropDown(false)
+                  })}
               >
                 {icon}
                 <span>Connect with {title}</span>

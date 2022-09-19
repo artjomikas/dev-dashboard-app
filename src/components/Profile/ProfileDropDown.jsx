@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 const ProfileDropDown = (props) => {
   const { user, logout } = UserAuth();
-
+  
   return (
     <div
       className="fixed inset-0 z-100"
@@ -31,7 +31,13 @@ const ProfileDropDown = (props) => {
             <p className="block py-2 px-4 hover:bg-gray-100">Profile</p>
           </NavLink>
 
-          <p className="block py-2 px-4 hover:bg-gray-100">Settings</p>
+          <NavLink
+            to="settings"
+            onClick={() => props.setShowDropDown(!props.showDropDown)}
+          >
+            <p className="block py-2 px-4 hover:bg-gray-100">Settings</p>
+          </NavLink>
+          
           <p
             className="block py-2 mb-4 px-4 hover:bg-gray-100"
             onClick={() => logout()}

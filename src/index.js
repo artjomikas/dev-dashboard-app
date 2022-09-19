@@ -10,6 +10,7 @@ export { default as Home } from './pages/Home';
 export { default as Bookmarks } from './pages/Bookmarks';
 export { default as Pages } from './pages/Pages';
 export { default as Profile } from './pages/Profile';
+export { default as Settings } from './pages/Settings';
 export { default as Like } from './components/Articles/Like';
 export { default as Bookmark } from './components/Articles/Bookmark';
 

@@ -1,30 +1,7 @@
-import { useQuery } from "@apollo/client";
-import { GET_LIKES_COUNT } from "../query/getLikesCount";
-import { GET_BOOKMARKS_COUNT } from "../query/getBookmarksCount";
-import { useState, useEffect } from "react";
+import { UserAuth } from "../context/AuthContext";
 
-const Profile = ({ user }) => {
-  const {
-    error,
-    loading,
-    data: bookmarks,
-    refetch: getBookmarks,
-  } = useQuery(GET_BOOKMARKS_COUNT, {
-    variables: { user_id: "ehilvtUqnXewrueuEBMbFqh19We2" },
-  });
-  const { data: likes } = useQuery(GET_LIKES_COUNT, {
-    variables: { user_id: "ehilvtUqnXewrueuEBMbFqh19We2" },
-  });
-
-  const [bookmarksCount, setBookmarksCount] = useState(0);
-  const [likesCount, setLikesCount] = useState(0);
-
-  useEffect(() => {
-    if (!loading) {
-      setLikesCount(likes.getLikesCount);
-      setBookmarksCount(bookmarks.getBookmarksCount);
-    }
-  }, [bookmarks]);
+const Profile = () => {
+  const { user } = UserAuth();
 
   return (
     <div className="p-8 container max-w-screen-md mx-auto text-white ">
@@ -53,16 +30,12 @@ const Profile = ({ user }) => {
         </div>
 
         <div className="h-20 w-40 bg-secondary p-4 rounded-xl flex flex-col sm:col-span-2">
-          <div className="font-bold text-xl break overflow-hidden">
-            {bookmarksCount}
-          </div>
+          <div className="font-bold text-xl break overflow-hidden">0</div>
           <div className="text-primary typo font-normal">Bookmarks</div>
         </div>
 
         <div className="h-20 w-40 bg-secondary p-4 rounded-xl flex flex-col">
-          <div className="font-bold text-xl break overflow-hidden">
-            {likesCount}
-          </div>
+          <div className="font-bold text-xl break overflow-hidden">0</div>
           <div className="text-primary typo font-normal">Likes</div>
         </div>
 
