@@ -1,39 +1,96 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 
 import { BookmarkFilledIcon } from "../../icons/BookmarkFilledIcon";
 import { BookmarkIcon } from "../../icons/BookmarkIcon";
 import { ADD_BOOKMARK } from "../../mutations/addBookmark";
 import { REMOVE_BOOKMARK } from "../../mutations/removeBookmark";
+import { GET_ALL_POSTS } from "../../query/getAllPostsAggregate";
 import { GET_BOOKMARKS } from "../../query/getBookmarks";
 import { useState, useEffect } from "react";
 
-const Bookmark = ({ bookmark, user_id, post_id, refetch }) => {
-  const [newBookmark] = useMutation(ADD_BOOKMARK);
-  const [removeBookmark] = useMutation(REMOVE_BOOKMARK);
+const Bookmark = ({ bookmark, user_id, post_id }) => {
+  // const [user, setUser] = useState();
+  // const [post, setPost] = useState();
 
-  const { refetch: refetchBookmarks } = useQuery(GET_BOOKMARKS, {
-    variables: { user_id: user_id },
+  // useEffect(() => {
+  //   setUser(user);
+  //   setPost(post);
+  // }, []);
+
+  const [newBookmark] = useMutation(ADD_BOOKMARK, {
+    update(cache) {
+      const { getAllPosts } = cache.readQuery({
+        query: GET_ALL_POSTS,
+        variables: {
+          user: user_id,
+        },
+      });
+
+      const { getAllBookmarks } = cache.readQuery({
+        query: GET_ALL_POSTS,
+        variables: {
+          user: user_id,
+        },
+      });
+
+      cache.writeQuery({
+        query: GET_ALL_POSTS,
+        variables: { user: user_id },
+        data: {
+          getAllPosts: getAllPosts.map((post) =>
+            post._id === post_id ? { ...post, bookmarked: true } : post
+          ),
+        },
+      });
+    },
+    refetchQueries: [
+      {
+        query: GET_BOOKMARKS,
+        variables: {
+          user_id: user_id,
+        },
+      },
+    ],
   });
 
-  const [bookmarked, setBookmarked] = useState(false);
-
-  useEffect(() => {
-    setBookmarked(bookmark);
-  }, [bookmark]);
+  const [removeBookmark] = useMutation(REMOVE_BOOKMARK, {
+    update(cache) {
+      try {
+        const { getAllPosts } = cache.readQuery({
+          query: GET_ALL_POSTS,
+          variables: {
+            user: user_id,
+          },
+        });
+        cache.writeQuery({
+          query: GET_ALL_POSTS,
+          variables: { user: user_id },
+          data: {
+            getAllPosts: getAllPosts.map((post) =>
+              post._id === post_id ? { ...post, bookmarked: false } : post
+            ),
+          },
+        });
+      } catch (error) {}
+    },
+    refetchQueries: [
+      {
+        query: GET_BOOKMARKS,
+        variables: {
+          user_id: user_id,
+        },
+      },
+    ],
+  });
 
   const addBookmark = async () => {
     try {
-      setBookmarked(true);
-      
       await newBookmark({
         variables: {
           user_id: user_id,
           post_id: post_id,
         },
       });
-
-      await refetch();
-      await refetchBookmarks();
     } catch (error) {
       console.log(error);
     }
@@ -41,16 +98,13 @@ const Bookmark = ({ bookmark, user_id, post_id, refetch }) => {
 
   const deleteBookmark = async () => {
     try {
-      setBookmarked(false);
-
+      console.log(post_id);
       await removeBookmark({
         variables: {
           user_id: user_id,
           post_id: post_id,
         },
       });
-      await refetch();
-      await refetchBookmarks();
     } catch (error) {
       console.log(error);
     }
@@ -60,11 +114,11 @@ const Bookmark = ({ bookmark, user_id, post_id, refetch }) => {
     <div className="">
       <div
         className={`flex flex-row items-center cursor-pointer w-full ${
-          bookmarked && "icon_green"
+          bookmark && "icon_green"
         }`}
-        onClick={bookmarked ? () => deleteBookmark() : () => addBookmark()}
+        onClick={bookmark ? () => deleteBookmark() : () => addBookmark()}
       >
-        {bookmarked ? <BookmarkFilledIcon /> : <BookmarkIcon />}
+        {bookmark ? <BookmarkFilledIcon /> : <BookmarkIcon />}
       </div>
     </div>
   );

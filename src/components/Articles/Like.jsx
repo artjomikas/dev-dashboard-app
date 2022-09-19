@@ -2,32 +2,66 @@ import { useMutation } from "@apollo/client";
 import { UpIcon } from "../../icons/UpIcon";
 import { ADD_LIKE } from "../../mutations/addLike";
 import { REMOVE_LIKE } from "../../mutations/removeLike";
+import { GET_ALL_POSTS } from "../../query/getAllPostsAggregate";
 
-import { useState, useEffect } from "react";
 
-const Like = ({ like, likesNum, user_id, post_id, refetch }) => {
-  const [newLike] = useMutation(ADD_LIKE);
-  const [deleteLike] = useMutation(REMOVE_LIKE);
-
-  const [liked, setLiked] = useState(false);
-  const [likesNumber, setLikesNumber] = useState(0);
-
-  useEffect(() => {
-    setLiked(like);
-    setLikesNumber(likesNum);
-  }, []);
-
-  const addLike = async () => {
-    try {
-      setLiked(true);
-      setLikesNumber(likesNumber + 1);
-      await newLike({
+const Like = ({ like, likesCount, user_id, post_id }) => {
+  const [newLike] = useMutation(ADD_LIKE, {
+    update(cache) {
+      const { getAllPosts } = cache.readQuery({
+        query: GET_ALL_POSTS,
         variables: {
-          user_id: user_id,
-          post_id: post_id,
+          user: user_id,
         },
       });
-      refetch();
+
+      cache.writeQuery({
+        query: GET_ALL_POSTS,
+        variables: { user: user_id },
+        data: {
+          getAllPosts: getAllPosts.map((post) =>
+            post._id === post_id
+              ? { ...post, liked: true, likesCount: likesCount+1 }
+              : post
+          ),
+        },
+      });
+    },
+  });
+
+  const [deleteLike] = useMutation(REMOVE_LIKE, {
+    update(cache) {
+      const { getAllPosts } = cache.readQuery({
+        query: GET_ALL_POSTS,
+        variables: {
+          user: user_id,
+        },
+      });
+
+      cache.writeQuery({
+        query: GET_ALL_POSTS,
+        variables: { user: user_id },
+        data: {
+          getAllPosts: getAllPosts.map((post) =>
+            post._id === post_id
+              ? { ...post, liked: false, likesCount: likesCount - 1 }
+              : post
+          ),
+        },
+      });
+    },
+  });
+  
+  const addLike = async () => {
+    try {
+      if (user_id !== null) {
+        await newLike({
+          variables: {
+            user_id: user_id,
+            post_id: post_id,
+          },
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -35,15 +69,14 @@ const Like = ({ like, likesNum, user_id, post_id, refetch }) => {
 
   const removeLike = async () => {
     try {
-      setLiked(false);
-      setLikesNumber(likesNumber - 1);
-      await deleteLike({
-        variables: {
-          user_id: user_id,
-          post_id: post_id,
-        },
-      });
-      refetch();
+      if (user_id !== null) {
+        await deleteLike({
+          variables: {
+            user_id: user_id,
+            post_id: post_id,
+          },
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -51,19 +84,19 @@ const Like = ({ like, likesNum, user_id, post_id, refetch }) => {
   return (
     <div
       className="flex flex-row items-center cursor-pointer w-full max-w-[40px]"
-      onClick={liked ? () => removeLike() : () => addLike()}
+      onClick={like ? () => removeLike() : () => addLike()}
     >
-      <div className={`icon hover:icon_green ${liked && "icon_green"}`}>
+      <div className={`icon hover:icon_green ${like && "icon_green"}`}>
         <UpIcon />
       </div>
       <p
         className={`text-[16px] font-medium mt-[4px] text-[#A8B3CF] pl-[2px] ${
-          likesNumber === 0
+          likesCount === 0
             ? "hidden"
-            : `${liked ? "text-[#1aaa67]" : "text-[#A8B3CF]"}`
+            : `${like ? "text-[#1aaa67]" : "text-[#A8B3CF]"}`
         }`}
       >
-        {likesNumber}
+        {likesCount}
       </p>
     </div>
   );

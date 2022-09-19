@@ -15,17 +15,17 @@ export const UpIcon = () => {
         y2="40"
         fill="none"
         stroke="#A8B3CF"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="12"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="12"
       ></line>
       <polyline
         points="56 112 128 40 200 112"
         fill="none"
         stroke="#A8B3CF"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="12"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="12"
       ></polyline>
     </svg>
   );

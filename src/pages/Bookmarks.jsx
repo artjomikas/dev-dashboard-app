@@ -2,14 +2,12 @@ import Articles from "../components/Articles/Articles";
 import { useQuery } from "@apollo/client";
 import { GET_BOOKMARKS } from "../query/getBookmarks";
 import { useState, useEffect } from "react";
+import { UserAuth } from "../context/AuthContext";
 
-const Bookmarks = ({ user, refetch }) => {
-  const {
-    loading,
-    data,
-    refetch: refetchBookmarks,
-  } = useQuery(GET_BOOKMARKS, {
-    variables: { user_id: user._id },
+const Bookmarks = () => {
+  const { userId } = UserAuth();
+  const { loading, data } = useQuery(GET_BOOKMARKS, {
+    variables: { user_id: userId },
   });
 
   const [posts, setPosts] = useState([]);
@@ -25,12 +23,7 @@ const Bookmarks = ({ user, refetch }) => {
       <h1 className="pl-6 pt-8 pb-3 text-white text-xl font-semibold leading-tight">
         Your Bookmarks
       </h1>
-      <Articles
-        user={user}
-        posts={posts}
-        refetch={refetch}
-        refetchBookmarks={refetchBookmarks}
-      />
+      <Articles posts={posts} />
     </div>
   );
 };

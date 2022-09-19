@@ -20,6 +20,7 @@ const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
+  const [userId, setUserId] = useState(null);
   const [initializing, setInitializing] = useState(true);
 
   const signUp = (email, password) => {
@@ -79,6 +80,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       if (currentUser != null) {
+        setUserId(currentUser.uid);
         getUser({ variables: { id: currentUser.uid } }).then((response) => {
           if (response.data.getUser.length == 0) {
             newUser({
@@ -97,7 +99,6 @@ export const AuthContextProvider = ({ children }) => {
             const result = response.data.getUser[0]
             const {__typename, ...rest} = result;
             setUser(rest)
-            console.log(user)
           }
         });
 
@@ -121,6 +122,7 @@ export const AuthContextProvider = ({ children }) => {
         signInWithGoogle,
         resetPassword,
         user,
+        userId
       }}
     >
       {children}

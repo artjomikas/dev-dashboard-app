@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { useHover } from "usehooks-ts";
 import { MessageIcon } from "../../icons/MessageIcon";
 import { Like, Author, DateOfPosting, Bookmark } from "../../index";
+import { UserAuth } from "../../context/AuthContext";
 
 const ActicleBlock = ({
   author,
@@ -12,14 +13,14 @@ const ActicleBlock = ({
   createdAt,
   imageURL,
   liked,
-  likesNum,
+  likesCount,
   bookmarked,
-  user,
-  id,
+  _id,
   refetch,
 }) => {
   const hoverRef = useRef(null);
   const isHover = useHover(hoverRef);
+  const { userId } = UserAuth();
 
   return (
     <div
@@ -66,10 +67,9 @@ const ActicleBlock = ({
         <div className="flex justify-around items-center text-[20px] max-h-[30px] h-full ">
           <Like
             like={liked}
-            likesNum={likesNum}
-            user_id={user}
-            post_id={id}
-            refetch={refetch}
+            likesCount={likesCount}
+            post_id={_id}
+            user_id={userId}
           />
 
           <div className="icon hover:icon_green">
@@ -79,9 +79,8 @@ const ActicleBlock = ({
           <div className="icon hover:icon_green mr-4">
             <Bookmark
               bookmark={bookmarked}
-              user_id={user}
-              post_id={id}
-              refetch={refetch}
+              user_id={userId}
+              post_id={_id}
             />
           </div>
         </div>

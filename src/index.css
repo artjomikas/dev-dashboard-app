@@ -42,6 +42,10 @@ body {
   .icon {
     @apply hover:bg-dark p-1.5 rounded-xl cursor-pointer;
   }
+  .icon_sidebar svg {
+    width: 20px;
+    height: 20px;
+  }
   .icon_green svg circle {
     fill: #1aaa67;
   }
