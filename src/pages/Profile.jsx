@@ -1,5 +1,6 @@
 import { UserAuth } from "../context/AuthContext";
 
+
 const Profile = () => {
   const { user } = UserAuth();
 

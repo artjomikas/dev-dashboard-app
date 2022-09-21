@@ -56,7 +56,7 @@ const Sidebar = ({ children }) => {
       <div
         className={`${
           isOpen ? "w-60" : "w-16"
-        } h-screen relative px-[5px] pt-8 duration-300 border-r-[1px] border-[#2D323B]`}
+        } min-h-screen relative px-[5px] pt-8 duration-300 border-r-[1px] border-[#2D323B]`}
       >
         {closeSidebarButton}
 
