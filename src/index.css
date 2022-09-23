@@ -33,7 +33,7 @@ body {
     border-top: 15px solid #22252d;
   }
   .input__field {
-    @apply shadow-lg rounded-xl py-3 px-3 text-white leading-tight bg-input focus:outline-none focus:bg-[#323743] focus:border-primary border border-transparent;
+    @apply shadow-lg rounded-md py-2 px-2 mb-6 text-primary leading-tight bg-input focus:outline-none focus:bg-[#323743] focus:border-primary border border-transparent;
   }
 
   .button__primary {

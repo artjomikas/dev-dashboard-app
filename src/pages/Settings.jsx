@@ -78,7 +78,6 @@ const Settings = () => {
       title: "Website",
       name: "website",
       value: values.website,
-      required: "",
     },
   ];
 
