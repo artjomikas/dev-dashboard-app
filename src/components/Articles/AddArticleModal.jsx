@@ -5,19 +5,13 @@ import { UserAuth } from "../../context/AuthContext";
 import { useMutation } from "@apollo/client";
 import { CREATE_POST } from "../../mutations/createPost";
 import { useQuery } from "@apollo/client";
-import { GET_ALL_POSTS } from "../../query/posts";
+import { GET_ALL_POSTS } from "../../query/getAllPostsAggregate";
 import axios from "axios";
 
-const AddArticleModal = (props) => {
-  const { refetch } = useQuery(GET_ALL_POSTS);
-  const [newPost] = useMutation(CREATE_POST);
-  const { user } = UserAuth();
 
-  const [permaLink, setPermaLink] = useState("");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [imageURL, setimageURL] = useState("");
-  const [readTime, setReadTime] = useState();
+const AddArticleModal = (props) => {
+
+  const { user } = UserAuth();
 
   const [fetched, setFetched] = useState(false);
 
@@ -28,10 +22,6 @@ const AddArticleModal = (props) => {
     imageURL: "",
     readTime: "",
   });
-
-  // let [articleModel, setArticleModel] = useState([
-  //   { id: "permaLink", placeholder: "Article link" },
-  // ]);
 
   const data = {
     state: values.permaLink,
@@ -49,6 +39,18 @@ const AddArticleModal = (props) => {
     { state: values.imageURL, placeholder: "Image link", name: "imageURL" },
     { state: values.readTime, placeholder: "Read time", name: "readTime" },
   ];
+
+  const [newPost] = useMutation(CREATE_POST, {
+    refetchQueries: [
+      {
+        query: GET_ALL_POSTS,
+        variables: {
+          user: user._id,
+        },
+      },
+    ],
+  });
+
 
   const handleChange = (e) => {
     console.log(e.target);
@@ -69,15 +71,13 @@ const AddArticleModal = (props) => {
           description: values.description,
           readTime: Number(values.readTime),
           author: {
-            name: user.reloadUserInfo.displayName,
-            username: "@" + user.reloadUserInfo.screenName,
-            imageURL: user.reloadUserInfo.photoUrl,
+            name: user.name,
+            username: "@" + user.username,
+            imageURL: user.imageURL,
           },
         },
       },
     });
-
-    refetch();
 
     props.setShowModal(false);
   };
@@ -85,20 +85,7 @@ const AddArticleModal = (props) => {
     e.preventDefault();
 
     if (fetched) {
-      await axios
-        .post("http://localhost:3000/api/scrape", {
-          url: values.permaLink,
-        })
-        .then((response) => {
-          const { description, image, title, url } = response.data;
-          setValues((oldValues) => ({
-            ...oldValues,
-            ["title"]: title,
-            ["imageURL"]: image,
-            ["description"]: description,
-          }));
-        });
-      setFetched(true);
+      addUser();
     } else {
       await axios
         .post("http://localhost:3000/api/scrape", {
@@ -244,62 +231,25 @@ const AddArticleModal = (props) => {
                 ></input>
               )}
 
-              {/* {(fetched ? newData : data).map(
-                ({ state, placeholder, name }, i) => {
-                  return (
-                    <>
-                      <input
-                        className="input__field"
-                        type="text"
-                        value={state}
-                        onChange={handleChange}
-                        id={name}
-                        name={name}
-                        placeholder={placeholder}
-                        required
-                      ></input>
+              <div className="flex gap-4 pt-4">
+                {fetched && (
+                  <button
+                    className="button__primary  w-1/2 sm:w-1/2 py-3 text-white bg-[#6495ED] hover:bg-[#6495ED] border-none active:outline-primary active:outline-1 active:outline"
+                    onClick={() => setFetched(false)}
+                  >
+                    <p className="mx-auto ">Back</p>
+                  </button>
+                )}
 
-                      <span
-                        role="textbox"
-                        className="input__field block border resize-y"
-                        contenteditable="true"
-                      ></span>
-
-                    </>
-                  );
-                }
-              )} */}
-
-              {/* <input
-                className="input__field"
-                type="text"
-                name="imageURL"
-                id="imageURL"
-                value={values.imageURL}
-                onChange={handleChange}
-                placeholder="Image"
-                required
-              ></input>
-
-              <input
-                className="input__field"
-                type="text"
-                name="title"
-                id="title"
-                value={values.title}
-                onChange={handleChange}
-                placeholder="title"
-                required
-              ></input> */}
-
-              <button
-                className="button__primary  w-2/3 sm:w-1/2 py-3 text-black bg-[#33b864] hover:bg-[#30d46d] border-none active:outline-primary active:outline-1 active:outline"
-                type="submit"
-              >
-                <p className="mx-auto ">
-                  {!fetched ? "Next" : "Add to review"}
-                </p>
-              </button>
+                <button
+                  className="button__primary  w-1/2 sm:w-1/2 py-3 text-white bg-[#33b864] hover:bg-[#30d46d] border-none active:outline-primary active:outline-1 active:outline"
+                  type="submit"
+                >
+                  <p className="mx-auto ">
+                    {!fetched ? "Next" : "Add to review"}
+                  </p>
+                </button>
+              </div>
             </div>
           </form>
         </div>
