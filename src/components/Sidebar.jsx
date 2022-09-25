@@ -16,8 +16,6 @@ const Sidebar = ({ children }) => {
   const location = useLocation();
   const [isOpen, setOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
-  console.log(location.pathname);
   const Menus = [
     { title: "Home", path: "", icon: <AiOutlineHome className="ml-[6px]" /> },
     {

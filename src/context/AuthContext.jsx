@@ -55,13 +55,6 @@ export const AuthContextProvider = ({ children }) => {
 
   const [getUser, { loading, error, data }] = useLazyQuery(GET_USER_BY_ID);
 
-  useEffect(() => {
-    if (!loading && data != undefined) {
-      if (data.getUser == null) {
-        console.log(data);
-      }
-    }
-  }, [data]);
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {

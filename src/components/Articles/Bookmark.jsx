@@ -83,7 +83,6 @@ const Bookmark = ({ bookmark, user_id, post_id }) => {
 
   const deleteBookmark = async () => {
     try {
-      console.log(post_id);
       await removeBookmark({
         variables: {
           user_id: user_id,

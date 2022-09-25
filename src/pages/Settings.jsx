@@ -116,6 +116,7 @@ const Settings = () => {
 
   const uploadImage = async (image) => {
     const formData = new FormData();
+    console.log(image)
     formData.append("file", image);
     formData.append("upload_preset", "a0oail7i");
 

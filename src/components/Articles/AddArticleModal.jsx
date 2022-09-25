@@ -5,7 +5,7 @@ import { UserAuth } from "../../context/AuthContext";
 import { useMutation } from "@apollo/client";
 import { CREATE_POST } from "../../mutations/createPost";
 import { GET_ALL_POSTS } from "../../query/getAllPostsAggregate";
-import axios from "axios";
+import Axios from "axios";
 
 const AddArticleModal = (props) => {
   const { user } = UserAuth();
@@ -50,7 +50,6 @@ const AddArticleModal = (props) => {
   });
 
   const handleChange = (e) => {
-    console.log(e.target);
     setValues((oldValues) => ({
       ...oldValues,
       [e.target.id]:
@@ -58,12 +57,28 @@ const AddArticleModal = (props) => {
     }));
   };
 
-  const addUser = () => {
+  const uploadImage = async (image) => {
+    const formData = new FormData();
+    formData.append("file", image);
+    formData.append("upload_preset", "a0oail7i");
+    formData.append("folder", "articles");
+
+
+    const response = await Axios.post(
+      "https://api.cloudinary.com/v1_1/taltech/image/upload",
+      formData
+    );
+    console.log(response.data);
+    return response.data.url;
+  };
+
+  const addUser = async () => {
+    const imageURL = await uploadImage(values.imageURL);
     newPost({
       variables: {
         input: {
           title: values.title,
-          imageURL: values.imageURL,
+          imageURL: imageURL,
           permaLink: values.permaLink,
           description: values.description,
           readTime: Number(values.readTime),
@@ -83,19 +98,17 @@ const AddArticleModal = (props) => {
     if (fetched) {
       addUser();
     } else {
-      await axios
-        .post("http://localhost:3000/api/scrape", {
-          url: values.permaLink,
-        })
-        .then((response) => {
-          const { description, image, title, url } = response.data;
-          setValues((oldValues) => ({
-            ...oldValues,
-            ["title"]: title,
-            ["imageURL"]: image,
-            ["description"]: description,
-          }));
-        });
+      await Axios.post("http://localhost:3000/api/scrape", {
+        url: values.permaLink,
+      }).then((response) => {
+        const { description, image, title, url } = response.data;
+        setValues((oldValues) => ({
+          ...oldValues,
+          title: title,
+          imageURL: image,
+          description: description,
+        }));
+      });
       setFetched(true);
     }
   };
@@ -158,7 +171,7 @@ const AddArticleModal = (props) => {
                   <span
                     role="textbox"
                     className="input__field block border resize-y"
-                    contenteditable="true"
+                    contentEditable="true"
                     onBlur={handleChange}
                     id={newData[2].name}
                   >

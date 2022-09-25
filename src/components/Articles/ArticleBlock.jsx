@@ -53,7 +53,7 @@ const ActicleBlock = ({
       </div>
 
       <div className="flex flex-1 flex-col cursor-pointer mb-2">
-        <LazyLoad height={160} width={280}>
+        <LazyLoad height={160} width={280} offset={100}>
           <img
             src={imageURL}
             alt="Image of article"
