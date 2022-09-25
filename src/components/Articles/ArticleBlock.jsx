@@ -4,6 +4,7 @@ import { useHover } from "usehooks-ts";
 import { MessageIcon } from "../../icons/MessageIcon";
 import { Like, Author, DateOfPosting, Bookmark } from "../../index";
 import { UserAuth } from "../../context/AuthContext";
+import LazyLoad from "react-lazy-load";
 
 const ActicleBlock = ({
   author,
@@ -52,11 +53,13 @@ const ActicleBlock = ({
       </div>
 
       <div className="flex flex-1 flex-col cursor-pointer mb-2">
-        <img
-          src={imageURL}
-          alt="Image of article"
-          className="object-cover h-40 rounded-2xl"
-        />
+        <LazyLoad height={160} width={280}>
+          <img
+            src={imageURL}
+            alt="Image of article"
+            className="object-cover h-40 rounded-2xl"
+          />
+        </LazyLoad>
       </div>
 
       {liked == undefined ? (
@@ -77,11 +80,7 @@ const ActicleBlock = ({
           </div>
 
           <div className="icon hover:icon_green mr-4">
-            <Bookmark
-              bookmark={bookmarked}
-              user_id={userId}
-              post_id={_id}
-            />
+            <Bookmark bookmark={bookmarked} user_id={userId} post_id={_id} />
           </div>
         </div>
       )}

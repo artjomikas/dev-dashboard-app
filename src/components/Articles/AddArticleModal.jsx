@@ -1,16 +1,13 @@
 import { AiOutlineClose } from "react-icons/ai";
 import Logo from "../Logo";
-import { useRef, useState, useEffect } from "react";
+import { useState } from "react";
 import { UserAuth } from "../../context/AuthContext";
 import { useMutation } from "@apollo/client";
 import { CREATE_POST } from "../../mutations/createPost";
-import { useQuery } from "@apollo/client";
 import { GET_ALL_POSTS } from "../../query/getAllPostsAggregate";
 import axios from "axios";
 
-
 const AddArticleModal = (props) => {
-
   const { user } = UserAuth();
 
   const [fetched, setFetched] = useState(false);
@@ -28,6 +25,7 @@ const AddArticleModal = (props) => {
     placeholder: "Article link",
     name: "permaLink",
   };
+
   const newData = [
     { state: values.permaLink, placeholder: "Article link", name: "permaLink" },
     { state: values.title, placeholder: "Title", name: "title" },
@@ -50,7 +48,6 @@ const AddArticleModal = (props) => {
       },
     ],
   });
-
 
   const handleChange = (e) => {
     console.log(e.target);
@@ -83,7 +80,6 @@ const AddArticleModal = (props) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (fetched) {
       addUser();
     } else {
@@ -102,27 +98,7 @@ const AddArticleModal = (props) => {
         });
       setFetched(true);
     }
-
-    // setValues((oldValues) => ({
-    //   ...oldValues,
-    //   [readTime]: "d",
-    // }));
-
-    // articleModel = linkModel;
-    // console.log(articleModel);
-    try {
-      // addUser();
-    } catch (error) {
-      console.log(error);
-    }
   };
-
-  // useEffect(() => {
-  //   setValues((oldValues) => ({
-  //     ...oldValues,
-  //     readTime: 10,
-  //   }));
-  // }, [values.imageURL]);
 
   return (
     <div
@@ -146,8 +122,6 @@ const AddArticleModal = (props) => {
               and send it to review.
             </p>
           )}
-
-          {/* <button onClick={() => console.log(values)}>TEST</button> */}
 
           <form onSubmit={handleSubmit}>
             <div className="mx-auto w-3/4 flex flex-col text-white">

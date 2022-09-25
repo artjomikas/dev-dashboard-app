@@ -8,12 +8,16 @@ import {
 } from "react-icons/ai";
 
 import { BsBookmarks } from "react-icons/bs";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useState } from "react";
+import AddArticleModal from "./Articles/AddArticleModal";
 
 const Sidebar = ({ children }) => {
+  const location = useLocation();
   const [isOpen, setOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
+  console.log(location.pathname);
   const Menus = [
     { title: "Home", path: "", icon: <AiOutlineHome className="ml-[6px]" /> },
     {
@@ -63,12 +67,15 @@ const Sidebar = ({ children }) => {
         <ul className="flex flex-col pt-20 gap-3  ">
           {Menus.map((element, index) => (
             <NavLink
-              to={element.path}
+              to={element.path !== "submit" && element.path}
               key={index}
-              className={({ isActive }) =>
-                isActive
-                  ? "flex cursor-pointer text-white p-3 rounded-xl bg-[#272a31] items-center hover:scale-[1.05] "
-                  : "flex cursor-pointer text-primary p-3 rounded-xl items-center hover:text-white  hover:scale-[1.05] "
+              onClick={
+                element.path === "submit" && (() => setShowModal(!showModal))
+              }
+              className={
+                location.pathname === "/" + element.path
+                  ? "flex cursor-pointer text-white p-3 rounded-md bg-[#272a31] items-center hover:scale-[1.05] "
+                  : "flex cursor-pointer text-primary p-3 rounded-md items-center hover:text-white  hover:scale-[1.05] "
               }
             >
               <div className="flex flex-row gap-x-4 items-center">
@@ -86,7 +93,7 @@ const Sidebar = ({ children }) => {
           ))}
         </ul>
       </div>
-
+      {showModal && <AddArticleModal setShowModal={setShowModal} />}
       {children}
     </div>
   );
