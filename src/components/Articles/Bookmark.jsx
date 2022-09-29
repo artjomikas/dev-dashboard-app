@@ -6,8 +6,13 @@ import { ADD_BOOKMARK } from "../../mutations/addBookmark";
 import { REMOVE_BOOKMARK } from "../../mutations/removeBookmark";
 import { GET_ALL_POSTS } from "../../query/getAllPostsAggregate";
 import { GET_BOOKMARKS } from "../../query/getBookmarks";
+import { UserAuth } from "../../context/AuthContext";
+
+
 
 const Bookmark = ({ bookmark, user_id, post_id }) => {
+  const {user} = UserAuth();
+
   const [newBookmark] = useMutation(ADD_BOOKMARK, {
     update(cache) {
       try {
@@ -98,11 +103,11 @@ const Bookmark = ({ bookmark, user_id, post_id }) => {
     <div className="">
       <div
         className={`flex flex-row items-center cursor-pointer w-full ${
-          bookmark && "icon_green"
+          (bookmark && user != null) && "icon_green"
         }`}
-        onClick={bookmark ? () => deleteBookmark() : () => addBookmark()}
+        onClick={(bookmark && user != null) ? () => deleteBookmark() : () => addBookmark()}
       >
-        {bookmark ? <BookmarkFilledIcon /> : <BookmarkIcon />}
+        {(bookmark && user != null) ? <BookmarkFilledIcon /> : <BookmarkIcon />}
       </div>
     </div>
   );

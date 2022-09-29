@@ -1,8 +1,9 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { auth } from "../firebase/firebase";
-import { useMutation, useLazyQuery } from "@apollo/client";
+import { useMutation, useLazyQuery,useQuery } from "@apollo/client";
 import { ADD_USER } from "../mutations/addUser";
 import { GET_USER_BY_ID } from "../query/getUser";
+import { GET_ALL_POSTS } from "../query/posts";
 
 import {
   getAuth,
@@ -94,11 +95,12 @@ export const AuthContextProvider = ({ children }) => {
             setUser(rest);
           }
         });
-
+        
         setInitializing(false);
       } else {
         setUser(null);
         setInitializing(false);
+        setUserId(null);
       }
     });
   }, []);

@@ -233,6 +233,7 @@ const AddArticleModal = (props) => {
                   type="submit"
                 >
                   <p className="mx-auto ">
+        
                     {!fetched ? "Next" : "Add to review"}
                   </p>
                 </button>

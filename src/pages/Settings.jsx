@@ -5,9 +5,11 @@ import { GET_USER_BY_ID } from "../query/getUser";
 import { useMutation } from "@apollo/client";
 import { useState, useEffect } from "react";
 import Axios from "axios";
+import { AiOutlineCheck } from "react-icons/ai";
 
 const Settings = () => {
   const { user } = UserAuth();
+  const [added, setAdded] = useState(false);
 
   const [updateUser] = useMutation(UPDATE_USER, {
     refetchQueries: [
@@ -96,8 +98,8 @@ const Settings = () => {
         result = await uploadImage(image.image);
       }
       updateUserFunc(result);
-
-      // console.log(values);
+      setAdded(true)
+      setInterval(() => setAdded(false), 4000);
     } catch (error) {
       console.log(error);
     }
@@ -116,7 +118,7 @@ const Settings = () => {
 
   const uploadImage = async (image) => {
     const formData = new FormData();
-    console.log(image)
+    console.log(image);
     formData.append("file", image);
     formData.append("upload_preset", "a0oail7i");
 
@@ -190,12 +192,21 @@ const Settings = () => {
           </div>
         ))}
 
-        <button
-          className="button__primary mt-4 w-[180px] py-3 bg-[#33b864] hover:bg-[#30d46d] border-none active:outline-primary active:outline-1 active:outline"
-          type="submit"
-        >
-          <p className="mx-auto">Save changes</p>
-        </button>
+        <div className="flex gap-4 pt-4">
+          <button
+            className="button__primary w-[180px] py-3 bg-[#33b864] hover:bg-[#30d46d] border-none active:outline-primary active:outline-1 active:outline"
+            type="submit"
+          >
+            <p className="mx-auto">Save changes</p>
+          </button>
+
+          {added && (
+            <div className="flex items-center gap-1 text-[#33b864] ease-in-out duration-700 transition-all">
+              <AiOutlineCheck />
+              <p>Saved</p>
+            </div>
+          )}
+        </div>
       </form>
     </div>
   );

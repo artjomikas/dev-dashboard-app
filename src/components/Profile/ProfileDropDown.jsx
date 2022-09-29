@@ -1,9 +1,10 @@
 import { UserAuth } from "../../context/AuthContext";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const ProfileDropDown = (props) => {
   const { user, logout } = UserAuth();
-  
+  let navigate = useNavigate();
+
   return (
     <div
       className="fixed inset-0 z-100"
@@ -37,10 +38,13 @@ const ProfileDropDown = (props) => {
           >
             <p className="block py-2 px-4 hover:bg-gray-100">Settings</p>
           </NavLink>
-          
+
           <p
             className="block py-2 mb-4 px-4 hover:bg-gray-100"
-            onClick={() => logout()}
+            onClick={() => {
+              navigate("/");
+              logout();
+            }}
           >
             Sign Out
           </p>
