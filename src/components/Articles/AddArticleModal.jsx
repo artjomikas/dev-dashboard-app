@@ -83,6 +83,7 @@ const AddArticleModal = (props) => {
           description: values.description,
           readTime: Number(values.readTime),
           author: {
+            _id: user._id,
             name: user.name,
             username: "@" + user.username,
             imageURL: user.imageURL,

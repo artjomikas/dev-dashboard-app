@@ -4,7 +4,7 @@ export const CREATE_POST = gql`
   mutation createPost($input: PostInput){
     createPost(input: $input){
       _id, title, imageURL, permaLink, description, readTime, author {
-        name, username, imageURL
+        _id, name, username, imageURL
       }
     }
   }
