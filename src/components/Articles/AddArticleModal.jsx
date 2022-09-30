@@ -116,10 +116,13 @@ const AddArticleModal = (props) => {
 
   return (
     <div
-      className="bg-[#ffffff3d] flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-100 outline-none px-4"
-      // close modal when outside of modal is clicked
+      className="bg-[#ffffff3d] flex justify-center items-center overflow-y-scroll fixed inset-0 z-100 outline-none px-4 overscroll-y-none"
+      onClick={() => props.setShowModal(false)}
     >
-      <div className="relative mx-auto max-w-[550px] max-h-full w-full">
+      <div className="relative mx-auto max-w-[550px] max-h-full w-full overscroll-y-none"  onClick={(e) => {
+              // do not close dropdown if anything inside dropdown content is clicked
+              e.stopPropagation();
+            }}>
         <div className="relative flex flex-col w-full bg-dark outline-none rounded-xl shadow-lg  p-6">
           <Logo className="mb-8 justify-center" />
 
@@ -127,6 +130,7 @@ const AddArticleModal = (props) => {
             className="absolute text-[25px] right-3 fill-primary cursor-pointer"
             // close modal if clicked close icon
             onClick={() => props.setShowModal(false)}
+           
           />
 
           {!fetched && (

@@ -5,10 +5,10 @@ export { default as AddArticleModal } from './components/Articles/AddArticleModa
 export { default as Sidebar } from './components/Sidebar';
 export { default as Author } from './components/Author';
 export { default as DateOfPosting } from './components/Date';
-export { default as DropDownMore } from './components/DropDownMore';
 export { default as Home } from './pages/Home';
 export { default as Bookmarks } from './pages/Bookmarks';
 export { default as Pages } from './pages/Pages';
+export { default as Popular } from './pages/Popular';
 export { default as Profile } from './pages/Profile';
 export { default as Settings } from './pages/Settings';
 export { default as Like } from './components/Articles/Like';

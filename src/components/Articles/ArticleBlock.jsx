@@ -5,6 +5,7 @@ import { MessageIcon } from "../../icons/MessageIcon";
 import { Like, Author, DateOfPosting, Bookmark } from "../../index";
 import { UserAuth } from "../../context/AuthContext";
 import LazyLoad from "react-lazy-load";
+import ArticleModal from "../Articles/ArticleModal";
 
 const ActicleBlock = ({
   author,
@@ -17,17 +18,19 @@ const ActicleBlock = ({
   likesCount,
   bookmarked,
   _id,
-  refetch,
 }) => {
   const hoverRef = useRef(null);
   const isHover = useHover(hoverRef);
   const { userId } = UserAuth();
+
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div
       className="bg-[#1C1F26] rounded-2xl flex flex-col h-full p-3 max-w-[310px] w-full border-[1px] border-solid border-[#383D47] hover:border-[#898c92] shadow-lg shadow-[#111214]"
       ref={hoverRef}
     >
+      {showModal && <ArticleModal setShowModal={setShowModal} />}
       <div className="flex flex-row justify-between w-full">
         <Author author={author} />
 
@@ -43,23 +46,25 @@ const ActicleBlock = ({
         </div>
       </div>
 
-      <p className="font-semibold text-[20px] mt-4 break-words line-clamp-3 mb-1 leading-[27px] cursor-pointer">
-        {title}
-      </p>
+      <div onClick={() => setShowModal(!showModal)}>
+        <p className="font-semibold text-[20px] mt-4 break-words line-clamp-3 mb-1 leading-[27px] cursor-pointer">
+          {title}
+        </p>
 
-      <div className="flex flex-1 flex-col mb-2 cursor-pointer">
-        <div className="flex-1"></div>
-        <DateOfPosting readTime={readTime} postDate={createdAt} />
-      </div>
+        <div className="flex flex-1 flex-col mb-2 cursor-pointer">
+          <div className="flex-1"></div>
+          <DateOfPosting readTime={readTime} postDate={createdAt} />
+        </div>
 
-      <div className="flex flex-1 flex-col cursor-pointer mb-2">
-        <LazyLoad height={160} width={280} offset={100}>
-          <img
-            src={imageURL}
-            alt="Image of article"
-            className="object-cover h-40 rounded-2xl"
-          />
-        </LazyLoad>
+        <div className="flex flex-1 flex-col cursor-pointer mb-2">
+          <LazyLoad height={160} width={280} offset={100}>
+            <img
+              src={imageURL}
+              alt="Image of article"
+              className="object-cover h-40 rounded-2xl"
+            />
+          </LazyLoad>
+        </div>
       </div>
 
       {liked == undefined ? (
