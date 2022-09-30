@@ -99,7 +99,7 @@ const AddArticleModal = (props) => {
     if (fetched) {
       addUser();
     } else {
-      await Axios.post("http://localhost:3000/api/scrape", {
+      await Axios.post("https://dev-graphql-server-artjomikas.vercel.app/api/scrape", {
         url: values.permaLink,
       }).then((response) => {
         const { description, image, title, url } = response.data;
