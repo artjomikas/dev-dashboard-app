@@ -46,25 +46,29 @@ const ActicleBlock = ({
         </div>
       </div>
 
-      <div onClick={() => setShowModal(!showModal)}>
-        <p className="font-semibold text-[20px] mt-4 break-words line-clamp-3 mb-1 leading-[27px] cursor-pointer">
-          {title}
-        </p>
+      <p className="font-semibold text-[20px] mt-4 break-words line-clamp-3 mb-1 leading-[27px] cursor-pointer">
+        {title}
+      </p>
 
-        <div className="flex flex-1 flex-col mb-2 cursor-pointer">
-          <div className="flex-1"></div>
-          <DateOfPosting readTime={readTime} postDate={createdAt} />
-        </div>
+      <div
+        className="flex flex-1 flex-col mb-2 cursor-pointer"
+        onClick={() => setShowModal(!showModal)}
+      >
+        <div className="flex-1"></div>
+        <DateOfPosting readTime={readTime} postDate={createdAt} />
+      </div>
 
-        <div className="flex flex-1 flex-col cursor-pointer mb-2">
-          <LazyLoad height={160} width={280} offset={100}>
-            <img
-              src={imageURL}
-              alt="Image of article"
-              className="object-cover h-40 rounded-2xl"
-            />
-          </LazyLoad>
-        </div>
+      <div
+        className="flex flex-1 flex-col cursor-pointer mb-2"
+        onClick={() => setShowModal(!showModal)}
+      >
+        <LazyLoad height={160} width={280} offset={100} className="max-w-fit items-center flex mx-auto">
+          <img
+            src={imageURL}
+            alt="Image of article"
+            className="object-cover h-40 rounded-2xl"
+          />
+        </LazyLoad>
       </div>
 
       {liked == undefined ? (
