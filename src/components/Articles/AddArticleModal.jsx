@@ -6,11 +6,14 @@ import { useMutation } from "@apollo/client";
 import { CREATE_POST } from "../../mutations/createPost";
 import { GET_ALL_POSTS } from "../../query/getAllPostsAggregate";
 import Axios from "axios";
+import { BiErrorCircle } from "react-icons/bi";
 
 const AddArticleModal = (props) => {
   const { user } = UserAuth();
 
   const [fetched, setFetched] = useState(false);
+  
+  const [loggined, setLoggined] = useState();
 
   const [values, setValues] = useState({
     permaLink: "",
@@ -43,7 +46,7 @@ const AddArticleModal = (props) => {
       {
         query: GET_ALL_POSTS,
         variables: {
-          user: user._id,
+          user: user?._id,
         },
       },
     ],
@@ -62,7 +65,6 @@ const AddArticleModal = (props) => {
     formData.append("file", image);
     formData.append("upload_preset", "a0oail7i");
     formData.append("folder", "articles");
-
 
     const response = await Axios.post(
       "https://api.cloudinary.com/v1_1/taltech/image/upload",
@@ -83,10 +85,10 @@ const AddArticleModal = (props) => {
           description: values.description,
           readTime: Number(values.readTime),
           author: {
-            _id: user._id,
-            name: user.name,
-            username: "@" + user.username,
-            imageURL: user.imageURL,
+            _id: user?._id,
+            name: user?.name,
+            username: "@" + user?.username,
+            imageURL: user?.imageURL,
           },
         },
       },
@@ -96,21 +98,27 @@ const AddArticleModal = (props) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (fetched) {
-      addUser();
-    } else {
-      await Axios.post("https://dev-graphql-server-artjomikas.vercel.app/api/scrape", {
-        url: values.permaLink,
-      }).then((response) => {
-        const { description, image, title, url } = response.data;
-        setValues((oldValues) => ({
-          ...oldValues,
-          title: title,
-          imageURL: image,
-          description: description,
-        }));
-      });
-      setFetched(true);
+    if (user != null) {
+      setLoggined(true);
+      if (fetched) {
+        addUser();
+      } else {
+        await Axios.post("http://localhost:3000/api/scrape", {
+          url: values.permaLink,
+        }).then((response) => {
+          const { description, image, title, url } = response.data;
+          setValues((oldValues) => ({
+            ...oldValues,
+            title: title,
+            imageURL: image,
+            description: description,
+          }));
+        });
+        setFetched(true);
+      }
+    }
+    else{
+      setLoggined(false);
     }
   };
 
@@ -119,10 +127,13 @@ const AddArticleModal = (props) => {
       className="bg-[#ffffff3d] flex justify-center items-center overflow-y-scroll fixed inset-0 z-100 outline-none px-4 overscroll-y-none"
       onClick={() => props.setShowModal(false)}
     >
-      <div className="relative mx-auto max-w-[550px] max-h-full w-full overscroll-y-none"  onClick={(e) => {
-              // do not close dropdown if anything inside dropdown content is clicked
-              e.stopPropagation();
-            }}>
+      <div
+        className="relative mx-auto max-w-[550px] max-h-full w-full"
+        onClick={(e) => {
+          // do not close dropdown if anything inside dropdown content is clicked
+          e.stopPropagation();
+        }}
+      >
         <div className="relative flex flex-col w-full bg-dark outline-none rounded-xl shadow-lg  p-6">
           <Logo className="mb-8 justify-center" />
 
@@ -130,7 +141,6 @@ const AddArticleModal = (props) => {
             className="absolute text-[25px] right-3 fill-primary cursor-pointer"
             // close modal if clicked close icon
             onClick={() => props.setShowModal(false)}
-           
           />
 
           {!fetched && (
@@ -223,7 +233,7 @@ const AddArticleModal = (props) => {
                 ></input>
               )}
 
-              <div className="flex gap-4 pt-4">
+              <div className="flex gap-4 pt-2">
                 {fetched && (
                   <button
                     className="button__primary  w-1/2 sm:w-1/2 py-3 text-white bg-[#6495ED] hover:bg-[#6495ED] border-none active:outline-primary active:outline-1 active:outline"
@@ -238,11 +248,17 @@ const AddArticleModal = (props) => {
                   type="submit"
                 >
                   <p className="mx-auto ">
-        
                     {!fetched ? "Next" : "Add to review"}
                   </p>
                 </button>
               </div>
+
+              {loggined === false && (
+                <div className="flex items-center gap-1 pt-2 text-[#be4646] ease-in-out duration-700 transition-all">
+                  <BiErrorCircle />
+                  <p>You should be logged in</p>
+                </div>
+              )}
             </div>
           </form>
         </div>

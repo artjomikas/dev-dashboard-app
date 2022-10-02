@@ -23,9 +23,9 @@ const cache = new InMemoryCache({
 });
 
 const client = new ApolloClient({
-  uri: "https://dev-server-v1.herokuapp.com/graphql",
+  // uri: "https://dev-server-v1.herokuapp.com/graphql",
   // uri: "https://dev-graphql-server-artjomikas.vercel.app/graphql",
-  // uri: "http://localhost:3000/graphql",
+  uri: "http://localhost:3000/graphql",
   cache
 });
 

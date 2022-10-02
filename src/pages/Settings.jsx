@@ -9,24 +9,16 @@ import { AiOutlineCheck } from "react-icons/ai";
 
 const Settings = () => {
   const { user } = UserAuth();
+  const { updateUser } = UserAuth();
   const [added, setAdded] = useState(false);
 
-  const [updateUser] = useMutation(UPDATE_USER, {
-    refetchQueries: [
-      {
-        query: GET_USER_BY_ID,
-        variables: {
-          id: user._id,
-        },
-      },
-    ],
-  });
+  const [updateUserMutation] = useMutation(UPDATE_USER);
 
   const updateUserFunc = async (result) => {
     try {
-      await updateUser({
+      await updateUserMutation({
         variables: {
-          user_id: user._id,
+          user_id: user?._id,
           data: result,
         },
       });
@@ -97,8 +89,9 @@ const Settings = () => {
       if (image.image != undefined) {
         result = await uploadImage(image.image);
       }
-      updateUserFunc(result);
+      await updateUserFunc(result).then(() => updateUser());
       setAdded(true)
+      
       setInterval(() => setAdded(false), 4000);
     } catch (error) {
       console.log(error);

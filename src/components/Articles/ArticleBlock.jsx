@@ -1,4 +1,5 @@
-import { AiOutlineEnter } from "react-icons/ai";
+import { HiOutlineExternalLink } from "react-icons/hi";
+
 import { useRef, useState } from "react";
 import { useHover } from "usehooks-ts";
 import { MessageIcon } from "../../icons/MessageIcon";
@@ -30,7 +31,7 @@ const ActicleBlock = ({
       className="bg-[#1C1F26] rounded-2xl flex flex-col h-full p-3 max-w-[310px] w-full border-[1px] border-solid border-[#383D47] hover:border-[#898c92] shadow-lg shadow-[#111214]"
       ref={hoverRef}
     >
-      {showModal && <ArticleModal setShowModal={setShowModal} />}
+      {showModal && <ArticleModal setShowModal={setShowModal} id={_id} />}
       <div className="flex flex-row justify-between w-full">
         <Author author={author} />
 
@@ -39,36 +40,41 @@ const ActicleBlock = ({
             <button className="bg-white px-3 py-2 rounded-[8px] ">
               <div className="flex flex-row items-center gap-1">
                 <p className="text-black font-semibold text-[12px]">Go</p>
-                <AiOutlineEnter className="fill-black text-sm mb-[2px] text-[14px]" />
+                <HiOutlineExternalLink className="text-black mb-[2px" />
               </div>
             </button>
           </a>
         </div>
       </div>
 
-      <p className="font-semibold text-[20px] mt-4 break-words line-clamp-3 mb-1 leading-[27px] cursor-pointer">
-        {title}
-      </p>
-
       <div
-        className="flex flex-1 flex-col mb-2 cursor-pointer"
+        className="flex flex-1 flex-col"
         onClick={() => setShowModal(!showModal)}
       >
-        <div className="flex-1"></div>
-        <DateOfPosting readTime={readTime} postDate={createdAt} />
-      </div>
+        <p className="font-semibold text-[20px] mt-4 break-words line-clamp-3 mb-1 leading-[27px] cursor-pointer">
+          {title}
+        </p>
 
-      <div
-        className="flex flex-1 flex-col cursor-pointer mb-2"
-        onClick={() => setShowModal(!showModal)}
-      >
-        <LazyLoad height={160} width={280} offset={100} className="max-w-fit items-center flex mx-auto">
-          <img
-            src={imageURL}
-            alt="Image of article"
-            className="object-cover h-40 rounded-2xl"
-          />
-        </LazyLoad>
+        <div className="flex flex-1 flex-col mb-2 cursor-pointer">
+          <div className="flex-1"></div>
+          <div className="text-[12px] flex items-center text-[#A8B3CF]">
+            <DateOfPosting readTime={readTime} postDate={createdAt} />
+          </div>
+        </div>
+
+        <div className="flex flex-1 flex-col cursor-pointer mb-2">
+          <LazyLoad
+            height={160}
+            offset={100}
+            className="max-w-max items-center flex mx-auto"
+          >
+            <img
+              src={imageURL}
+              alt="Image of article"
+              className="object-cover h-40 rounded-2xl min-w-content"
+            />
+          </LazyLoad>
+        </div>
       </div>
 
       {liked == undefined ? (

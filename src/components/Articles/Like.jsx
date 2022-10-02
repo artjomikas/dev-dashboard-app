@@ -5,8 +5,8 @@ import { REMOVE_LIKE } from "../../mutations/removeLike";
 import { GET_ALL_POSTS } from "../../query/getAllPostsAggregate";
 import { UserAuth } from "../../context/AuthContext";
 
-const Like = ({ like, likesCount, user_id, post_id }) => {
-  const {user} = UserAuth();
+const Like = ({ like, likesCount, user_id, post_id, id }) => {
+  const { user } = UserAuth();
 
   const [newLike] = useMutation(ADD_LIKE, {
     update(cache) {
@@ -85,23 +85,28 @@ const Like = ({ like, likesCount, user_id, post_id }) => {
   };
 
   return (
-    <div
+    <button
+      id={id}
       className="flex flex-row items-center cursor-pointer w-full max-w-[40px]"
-      onClick={(like && user != null) ? () => removeLike() : () => addLike()}
+      onClick={like && user != null ? () => removeLike() : () => addLike()}
     >
-      <div className={`icon hover:icon_green ${(like && user != null) && "icon_green"}`}>
+      <div
+        className={`icon hover:icon_green ${
+          like && user != null && "icon_green"
+        }`}
+      >
         <UpIcon />
       </div>
       <p
-        className={`text-[16px] font-medium mt-[4px] text-[#A8B3CF] pl-[2px] ${
+        className={`text-[16px] font-semibold mt-[1px] text-[#A8B3CF] ${
           likesCount === 0
             ? "hidden"
-            : `${(like && user != null) ? "text-[#1aaa67]" : "text-[#A8B3CF]"}`
+            : `${like && user != null ? "text-[#1aaa67]" : "text-[#A8B3CF]"}`
         }`}
       >
         {likesCount}
       </p>
-    </div>
+    </button>
   );
 };
 export default Like;

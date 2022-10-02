@@ -32,6 +32,15 @@ export const AuthContextProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
+  const updateUser = async () => {
+    refetch({ variables: { id: userId } }).then((response) => {
+        const result = response.data.getUser[0];
+        const { __typename, ...rest } = result;
+        console.log(rest);
+        setUser(rest);
+      })
+  };
+
   const signInWithGithub = async () => {
     const githubUser = await signInWithPopup(auth, new GithubAuthProvider());
     getUser({ variables: { id: githubUser.user.uid } });
@@ -54,7 +63,7 @@ export const AuthContextProvider = ({ children }) => {
   };
   const [newUser] = useMutation(ADD_USER);
 
-  const [getUser, { loading, error, data }] = useLazyQuery(GET_USER_BY_ID);
+  const [getUser, { loading, error, data, refetch }] = useLazyQuery(GET_USER_BY_ID);
 
 
   useEffect(() => {
@@ -118,6 +127,7 @@ export const AuthContextProvider = ({ children }) => {
         resetPassword,
         user,
         userId,
+        updateUser
       }}
     >
       {children}

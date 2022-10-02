@@ -40,7 +40,7 @@ body {
     @apply flex px-4 py-[8px] bg-white rounded-[12px] font-semibold border leading-[20px] hover:bg-primary text-sm sm:typo hover:shadow-lg;
   }
   .icon {
-    @apply hover:bg-dark p-1.5 rounded-xl cursor-pointer;
+    @apply hover:bg-dark p-1 mr-1 rounded-lg cursor-pointer;
   }
   .icon_sidebar svg {
     width: 20px;
