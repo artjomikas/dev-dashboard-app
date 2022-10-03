@@ -3,20 +3,27 @@ import { UserAuth } from "../../context/AuthContext";
 import { useQuery } from "@apollo/client";
 import { GET_POST } from "../../query/getPost";
 import { useEffect, useState } from "react";
+import { useParams, useLocation } from "react-router-dom";
+
 import LazyLoad from "react-lazy-load";
 import { Like, Author, DateOfPosting, Bookmark } from "../../index";
 
-const ArticleModal = ({ setShowModal, id }) => {
+const ArticleModal = ({ id, a, setShowModal }) => {
   const { userId } = UserAuth();
+
+  const params = useParams();
 
   const { loading, data } = useQuery(GET_POST, {
     variables: { user: userId, id: id },
   });
+
   const [post, setPost] = useState([]);
+  const [author, setAuthor] = useState({});
 
   useEffect(() => {
     if (!loading) {
       setPost(data.getPost[0]);
+      setAuthor(data.getPost[0].author[0]);
     }
   }, [data]);
 
@@ -26,6 +33,7 @@ const ArticleModal = ({ setShowModal, id }) => {
       onClick={() => {
         const cellText = document.getSelection();
         if (cellText.type === "Caret") {
+          // window.history.back();
           setShowModal(false);
         }
       }}
@@ -45,7 +53,7 @@ const ArticleModal = ({ setShowModal, id }) => {
             />
             {/* <button onClick={() => console.log(post.author)}>Test</button> */}
 
-            <h1 className="text-2xl font-semibold">{post.title}</h1>
+            <h1 className="text-2xl font-semibold text-white">{post.title}</h1>
 
             <div className="max-w-[500px] mt-4 border-l-2 border-l-indigo-500  pl-3 items-center flex">
               <h2 className=" text-medium text-primary">
@@ -59,11 +67,11 @@ const ArticleModal = ({ setShowModal, id }) => {
             <div className="pt-6 text-[15px] flex items-center text-[#A8B3CF]">
               <div className="flex flex-row cursor-pointer">
                 <img
-                  src={post?.author?.imageURL}
+                  src={author?.imageURL}
                   alt="Avatar of user who made a post"
                   className="h-8 w-8 md:h-6 md:w-6 rounded-full mx-1"
                 />
-                <p>{post?.author?.name}</p>
+                <p>{author?.name}</p>
               </div>
               <p className="whitespace-pre"> - </p>
               <DateOfPosting
@@ -90,9 +98,9 @@ const ArticleModal = ({ setShowModal, id }) => {
                   user_id={userId}
                 />
                 <label
-                  for="like"
-                  className={`font-semibold cursor-pointer text-[16px] ${
-                    post.liked ? "text-[#1aaa67] pl-2" : "text-[#A8B3CF]"
+                  htmlFor="like"
+                  className={`font-semibold cursor-pointer text-[16px] pl-2 ${
+                    post.liked ? "text-[#1aaa67]" : "text-[#A8B3CF]"
                   }`}
                 >
                   Vote
@@ -126,7 +134,7 @@ const ArticleModal = ({ setShowModal, id }) => {
             </div>
 
             <div className="text-[#A8B3CF] text-[14px] pt-8">
-              <label for="comment" className="pl-2 mt-2">
+              <label htmlFor="comment" className="pl-2 mt-2">
                 Leave a comment
               </label>
               <span

@@ -6,6 +6,7 @@ import { MessageIcon } from "../../icons/MessageIcon";
 import { Like, Author, DateOfPosting, Bookmark } from "../../index";
 import { UserAuth } from "../../context/AuthContext";
 import LazyLoad from "react-lazy-load";
+import { Link } from "react-router-dom";
 import ArticleModal from "../Articles/ArticleModal";
 
 const ActicleBlock = ({
@@ -31,9 +32,10 @@ const ActicleBlock = ({
       className="bg-[#1C1F26] rounded-2xl flex flex-col h-full p-3 max-w-[310px] w-full border-[1px] border-solid border-[#383D47] hover:border-[#898c92] shadow-lg shadow-[#111214]"
       ref={hoverRef}
     >
-      {showModal && <ArticleModal setShowModal={setShowModal} id={_id} />}
+      {showModal && <ArticleModal setShowModal={setShowModal} id={_id} /> }
+
       <div className="flex flex-row justify-between w-full">
-        <Author author={author} />
+        <Author author={author[0]} />
 
         <div className={isHover ? `opacity-100` : `opacity-0`}>
           <a href={permaLink} target="_blank">
@@ -46,36 +48,38 @@ const ActicleBlock = ({
           </a>
         </div>
       </div>
+{/* 
+      <Link to={"/article/" + _id}> */}
+        <div
+          className="flex flex-1 flex-col"
+          onClick={() => setShowModal(!showModal)}
+        >
+          <p className="font-semibold text-[20px] mt-4 break-words line-clamp-3 mb-1 leading-[27px] cursor-pointer">
+            {title}
+          </p>
 
-      <div
-        className="flex flex-1 flex-col"
-        onClick={() => setShowModal(!showModal)}
-      >
-        <p className="font-semibold text-[20px] mt-4 break-words line-clamp-3 mb-1 leading-[27px] cursor-pointer">
-          {title}
-        </p>
+          <div className="flex flex-1 flex-col mb-2 cursor-pointer">
+            <div className="flex-1"></div>
+            <div className="text-[12px] flex items-center text-[#A8B3CF]">
+              <DateOfPosting readTime={readTime} postDate={createdAt} />
+            </div>
+          </div>
 
-        <div className="flex flex-1 flex-col mb-2 cursor-pointer">
-          <div className="flex-1"></div>
-          <div className="text-[12px] flex items-center text-[#A8B3CF]">
-            <DateOfPosting readTime={readTime} postDate={createdAt} />
+          <div className="flex flex-1 flex-col cursor-pointer mb-2">
+            <LazyLoad
+              height={160}
+              offset={100}
+              className="max-w-max items-center flex mx-auto"
+            >
+              <img
+                src={imageURL}
+                alt="Image of article"
+                className="object-cover h-40 rounded-2xl min-w-content"
+              />
+            </LazyLoad>
           </div>
         </div>
-
-        <div className="flex flex-1 flex-col cursor-pointer mb-2">
-          <LazyLoad
-            height={160}
-            offset={100}
-            className="max-w-max items-center flex mx-auto"
-          >
-            <img
-              src={imageURL}
-              alt="Image of article"
-              className="object-cover h-40 rounded-2xl min-w-content"
-            />
-          </LazyLoad>
-        </div>
-      </div>
+      {/* </Link> */}
 
       {liked == undefined ? (
         <div className="flex max-h-[30px] h-full items-center">

@@ -8,7 +8,7 @@ const Author = ({ author, titleStyle, subtitleStyle }) => {
       />
       <div className="flex flex-col ">
         <p className={`text-[13px] font-bold leading-[11px] ${titleStyle}`}>{author.name}</p>
-        <p className={`text-[#A8B3CF] text-[11px] ${subtitleStyle}`}>{author.username}</p>
+        <p className={`text-[#A8B3CF] text-[11px] ${subtitleStyle}`}>@{author.username}</p>
       </div>
     </div>
   );

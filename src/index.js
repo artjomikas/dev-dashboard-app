@@ -1,6 +1,7 @@
 export { default as Header } from './components/Header';
 export { default as Articles } from './components/Articles/Articles';
 export { default as AddArticle } from './components/Articles/AddArticle';
+export { default as ArticleModal } from './components/Articles/ArticleModal';
 export { default as AddArticleModal } from './components/Articles/AddArticleModal';
 export { default as Sidebar } from './components/Sidebar';
 export { default as Author } from './components/Author';
