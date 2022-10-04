@@ -6,20 +6,17 @@ import {
   Profile,
   Settings,
   Popular,
-  ArticleModal,
 } from "../";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 const Pages = () => {
-  const location = useLocation();
-  console.log();
   return (
     <>
       <Header />
       <Sidebar>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/popular" element={<Popular />}/>
+          <Route path="/popular" element={<Popular />} />
           <Route path="/bookmarks" element={<Bookmarks />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />

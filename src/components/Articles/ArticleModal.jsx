@@ -3,27 +3,20 @@ import { UserAuth } from "../../context/AuthContext";
 import { useQuery } from "@apollo/client";
 import { GET_POST } from "../../query/getPost";
 import { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { Like, DateOfPosting, Bookmark, CommentsBlock } from "../../index";
 
-import LazyLoad from "react-lazy-load";
-import { Like, Author, DateOfPosting, Bookmark } from "../../index";
-
-const ArticleModal = ({ id, a, setShowModal }) => {
+const ArticleModal = ({ id, setShowModal }) => {
   const { userId } = UserAuth();
-
-  const params = useParams();
 
   const { loading, data } = useQuery(GET_POST, {
     variables: { user: userId, id: id },
   });
 
   const [post, setPost] = useState([]);
-  const [author, setAuthor] = useState({});
 
   useEffect(() => {
     if (!loading) {
       setPost(data.getPost[0]);
-      setAuthor(data.getPost[0].author[0]);
     }
   }, [data]);
 
@@ -38,47 +31,48 @@ const ArticleModal = ({ id, a, setShowModal }) => {
         }
       }}
     >
-      <div className="h-5/6">
+      <div className="h-5/6 overscroll-y-none max-w-screen-md w-full min-w-min">
         <div
-          className="relative max-w-screen-md w-full"
+          className="relative "
           onClick={(e) => {
             e.stopPropagation();
           }}
         >
-          <div className="relative flex flex-col w-full bg-dark outline-none rounded-xl shadow-lg px-12 py-8">
+          <div className="relative flex flex-col max-w-screen-md w-full min-w-min  bg-dark outline-none rounded-xl shadow-lg px-12 py-8">
             <AiOutlineClose
               className="absolute text-[25px] right-6 fill-primary cursor-pointer"
               // close modal if clicked close icon
               onClick={() => setShowModal(false)}
             />
-            {/* <button onClick={() => console.log(post.author)}>Test</button> */}
 
             <h1 className="text-2xl font-semibold text-white">{post.title}</h1>
 
             <div className="max-w-[500px] mt-4 border-l-2 border-l-indigo-500  pl-3 items-center flex">
               <h2 className=" text-medium text-primary">
                 <span className="text-indigo-500 font-medium">
-                  Description:{" "}
+                  Description:
                 </span>
                 {post.description}
               </h2>
             </div>
 
-            <div className="pt-6 text-[15px] flex items-center text-[#A8B3CF]">
-              <div className="flex flex-row cursor-pointer">
-                <img
-                  src={author?.imageURL}
-                  alt="Avatar of user who made a post"
-                  className="h-8 w-8 md:h-6 md:w-6 rounded-full mx-1"
+            {post.author != undefined && (
+              <div className="pt-6 text-[15px] flex items-center text-[#A8B3CF]">
+                <div className="flex flex-row cursor-pointer">
+                  <img
+                    src={post.author[0].imageURL}
+                    alt="Avatar of user who made a post"
+                    className="h-8 w-8 md:h-6 md:w-6 rounded-full mx-1"
+                  />
+                  <p>{post.author[0].name}</p>
+                </div>
+                <p className="whitespace-pre"> - </p>
+                <DateOfPosting
+                  readTime={post.readTime}
+                  postDate={post.createdAt}
                 />
-                <p>{author?.name}</p>
               </div>
-              <p className="whitespace-pre"> - </p>
-              <DateOfPosting
-                readTime={post.readTime}
-                postDate={post.createdAt}
-              />
-            </div>
+            )}
 
             <div className="py-6 ">
               <img
@@ -133,25 +127,7 @@ const ArticleModal = ({ id, a, setShowModal }) => {
               </div>
             </div>
 
-            <div className="text-[#A8B3CF] text-[14px] pt-8">
-              <label htmlFor="comment" className="pl-2 mt-2">
-                Leave a comment
-              </label>
-              <span
-                onSelect={(e) => {
-                  e.stopPropagation();
-                }}
-                id="comment"
-                role="textbox"
-                className="input__field rounded-xl block border resize-y pb-6 mb-3 mt-2"
-                contentEditable="true"
-              ></span>
-            </div>
-            <div className="">
-              <button className="px-4 py-[8px] bg-[#1aaa67] rounded-[10px] font-semibold leading-[20px] hover:bg-[#2ad887] typo hover:shadow-lg">
-                Add comment
-              </button>
-            </div>
+            <CommentsBlock id={id} comments={post.comments}/>
           </div>
         </div>
       </div>

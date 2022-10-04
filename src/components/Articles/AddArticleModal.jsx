@@ -12,7 +12,6 @@ const AddArticleModal = (props) => {
   const { user } = UserAuth();
 
   const [fetched, setFetched] = useState(false);
-  
   const [loggined, setLoggined] = useState();
 
   const [values, setValues] = useState({
@@ -113,8 +112,7 @@ const AddArticleModal = (props) => {
         });
         setFetched(true);
       }
-    }
-    else{
+    } else {
       setLoggined(false);
     }
   };
@@ -233,7 +231,7 @@ const AddArticleModal = (props) => {
               <div className="flex gap-4 pt-2">
                 {fetched && (
                   <button
-                    className="button__primary  w-1/2 sm:w-1/2 py-3 text-white bg-[#6495ED] hover:bg-[#6495ED] border-none active:outline-primary active:outline-1 active:outline"
+                    className="button__primary w-1/2 sm:w-1/2 py-3 text-white bg-[#6495ED] hover:bg-[#6495ED] border-none active:outline-primary active:outline-1 active:outline"
                     onClick={() => setFetched(false)}
                   >
                     <p className="mx-auto ">Back</p>
