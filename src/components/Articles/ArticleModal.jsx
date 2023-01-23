@@ -127,7 +127,8 @@ const ArticleModal = ({ id, setShowModal }) => {
               </div>
             </div>
 
-            <CommentsBlock id={id} comments={post.comments}/>
+         
+            <CommentsBlock id={id} comments={post.comments} />
           </div>
         </div>
       </div>

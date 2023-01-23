@@ -2,12 +2,24 @@ import { useState } from "react";
 import { ADD_COMMENT } from "../mutations/addComment";
 import { useMutation } from "@apollo/client";
 import { UserAuth } from "../context/AuthContext";
+import { GET_POST } from "../query/getPost";
+
 import Comment from "./Comment";
 
 const CommentsBlock = ({ id, comments }) => {
   const { userId, user } = UserAuth();
 
-  const [newComment] = useMutation(ADD_COMMENT);
+  const [newComment] = useMutation(ADD_COMMENT, {
+    refetchQueries: [
+      {
+        query: GET_POST,
+        variables: {
+          user: userId,
+          id: id,
+        },
+      },
+    ],
+  });
   const [text, setText] = useState("");
 
   const handleChange = (e) => {
@@ -30,6 +42,7 @@ const CommentsBlock = ({ id, comments }) => {
             },
           },
         });
+        setText("");
       }
     } catch (error) {
       console.log(error);
@@ -67,10 +80,8 @@ const CommentsBlock = ({ id, comments }) => {
         </button>
       </div>
 
-      <div className="flex flex-col pt-8 mx-3">
-  
+      <div className="flex flex-col pt-8">
         {comments?.map((comment, i) => {
-          console.log(comment);
           return <Comment key={i} {...comment} index={i} />;
         })}
       </div>

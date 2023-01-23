@@ -6,12 +6,14 @@ import Logo from "./Logo";
 import ProfileDropDown from "./Profile/ProfileDropDown";
 import ProfileAvatar from "./Profile/ProfileAvatar";
 import Modal from "./Modal";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const Header = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
   const { user } = UserAuth();
-  
+
   return (
     <>
       <div className="h-16 border-b-[#a8b3cf33] border-b-[1px] flex items-center justify-between px-6 py-3">
@@ -19,8 +21,9 @@ const Header = () => {
           <Logo />
         </Link>
 
+        {console.log(user)}
         {user ? (
-          user.imageURL && (
+          user.imageURL ? (
             <>
               <ProfileAvatar
                 setShowDropDown={setShowDropDown}
@@ -34,6 +37,15 @@ const Header = () => {
                 />
               )}
             </>
+          ) : (
+            <Skeleton
+              containerClassName="avatar-skeleton"
+              baseColor="#1F232C"
+              highlightColor="#212633"
+              circle
+              width={36}
+              height={36}
+            />
           )
         ) : (
           <button
@@ -45,7 +57,9 @@ const Header = () => {
         )}
       </div>
 
-      {showModal && <Modal setShowModal={setShowModal} setShowDropDown={setShowDropDown} />}
+      {showModal && (
+        <Modal setShowModal={setShowModal} setShowDropDown={setShowDropDown} />
+      )}
     </>
   );
 };

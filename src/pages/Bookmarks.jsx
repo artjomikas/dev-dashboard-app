@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/client";
 import { GET_BOOKMARKS } from "../query/getBookmarks";
 import { useState, useEffect } from "react";
 import { UserAuth } from "../context/AuthContext";
+import SkeletonArticles from "../components/SkeletonArticles";
 
 const Bookmarks = () => {
   const { userId } = UserAuth();
@@ -23,7 +24,7 @@ const Bookmarks = () => {
       <h1 className="pl-6 pt-8 pb-3 text-white text-xl font-semibold leading-tight">
         Your Bookmarks
       </h1>
-      <Articles posts={posts} />
+      {!loading ? <Articles posts={posts} /> : <SkeletonArticles />}
     </div>
   );
 };
