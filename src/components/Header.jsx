@@ -16,12 +16,11 @@ const Header = () => {
 
   return (
     <>
-      <div className="h-16 border-b-[#a8b3cf33] border-b-[1px] flex items-center justify-between px-6 py-3">
+      <div className="h-16 border-b-[#a8b3cf33] border-b-[1px] flex items-center justify-between px-6 py-3 relative">
         <Link to="/">
           <Logo />
         </Link>
 
-        {console.log(user)}
         {user ? (
           user.imageURL ? (
             <>
