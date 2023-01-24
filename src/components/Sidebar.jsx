@@ -88,7 +88,7 @@ const Sidebar = ({ children }) => {
               to={element.path !== "submit" && element.path}
               key={index}
               onClick={() => {
-                element.path === "submit" && (() => setShowModal(!showModal));
+                element.path === "submit" && setShowModal(!showModal);
                 setMobile(false);
               }}
               className={
